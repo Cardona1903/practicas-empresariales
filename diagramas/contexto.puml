@@ -1,0 +1,29 @@
+@startuml contexto
+title Sistema de Gestión de Prácticas Empresariales - Diagrama de contexto (C4 nivel 1)
+skinparam backgroundColor white
+skinparam rectangle {
+  RoundCorner 20
+}
+
+left to right direction
+
+actor "Estudiante" as estudiante <<Persona>>
+actor "Personal Administrativo\n(Coordinación de Prácticas)" as admin <<Persona>>
+actor "Supervisor empresarial\n(sin cuenta institucional)" as supervisor <<Persona>>
+
+rectangle "Sistema de Gestión de\nPrácticas Empresariales\n<<Sistema>>\nGestiona postulación, asignación de tutor,\nhoras, evaluación y acta final" as sistema #LightBlue
+
+rectangle "SIA\n<<Sistema externo>>\nSistema de Información Académica\n(identifica estudiantes y personal)" as sia #LightGray
+
+estudiante -right-> sistema : "postula, carga documentos\ny consulta su proceso (HTTPS)"
+admin -right-> sistema : "revisa postulaciones, verifica horas\ny genera el acta (HTTPS)"
+supervisor -right-> sistema : "ingresa horas y evalúa\ncon enlace de un solo uso (HTTPS)"
+sistema -down-> sia : "valida identidad de\nestudiantes y admin (SSO)"
+
+legend right
+  |Color|Elemento|
+  |<#LightBlue>|Sistema en alcance|
+  |<#LightGray>|Sistema externo|
+endlegend
+
+@enduml

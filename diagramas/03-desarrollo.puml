@@ -1,0 +1,63 @@
+@startuml 03-desarrollo
+title Sistema de Gestión de Prácticas Empresariales - Vista de desarrollo (C4 nivel 3 + vista de usos)
+skinparam backgroundColor white
+skinparam rectangle {
+  RoundCorner 12
+}
+
+rectangle "Aplicación web" as app
+
+rectangle "API de prácticas [contenedor: monolito modular, ADR-001]" {
+  rectangle "Módulo Postulación\n<<componente: caso de uso>>\nCU-02, CU-09\n(Controller + Service + Repositorio)" as postulacion #LightBlue
+  rectangle "Módulo AsignaciónTutor\n<<componente: caso de uso>>\nCU-03 (no primario)" as tutor #LightBlue
+  rectangle "Módulo Horas\n<<componente: caso de uso>>\nCU-05, CU-12" as horas #LightBlue
+  rectangle "Módulo Evaluación\n<<componente: caso de uso>>\nCU-13" as evaluacion #LightBlue
+  rectangle "Módulo Actas\n<<componente: caso de uso>>\nCU-07 (ADR-005, ADR-006)" as actas #Orange
+  rectangle "Módulo Administración\n<<componente: caso de uso>>\nCU-08 (reportes)" as admin #Orange
+  rectangle "Compartido / Auth\n<<componente: adaptador>>\nSSO (SsoAuthGuard), RBAC\n(RolesGuard), enlace de un\nsolo uso (SupervisorTokenGuard)" as auth #LightGreen
+  rectangle "Compartido / Configuración\n<<componente: caso de uso>>\nRequisitoPrograma (ADR-007)" as config #LightGreen
+}
+
+database "PostgreSQL" as db
+rectangle "SIA\n<<Sistema externo>>" as sia #LightGray
+
+app --> postulacion : "JSON / HTTPS"
+app --> tutor : "JSON / HTTPS"
+app --> horas : "JSON / HTTPS"
+app --> evaluacion : "JSON / HTTPS"
+app --> actas : "JSON / HTTPS"
+app --> admin : "JSON / HTTPS"
+
+postulacion --> config : "usa : valida requisitos"
+actas --> postulacion : "usa PostulacionService.estaValidada()"
+actas --> horas : "usa HorasService.totalHorasValidadas()"
+admin --> postulacion : "usa PostulacionService.estaValidada()"
+admin --> horas : "usa HorasService.totalHorasValidadas()"
+
+postulacion .down.> auth : "protegido por"
+tutor .down.> auth : "protegido por"
+horas .down.> auth : "protegido por"
+evaluacion .down.> auth : "protegido por"
+actas .down.> auth : "protegido por"
+admin .down.> auth : "protegido por"
+
+postulacion --> db : "SQL"
+tutor --> db : "SQL"
+horas --> db : "SQL"
+evaluacion --> db : "SQL"
+actas --> db : "SQL"
+config --> db : "SQL"
+auth --> db : "SQL (enlaces de acceso,\nRegistroAuditoria - PA-04)"
+
+auth --> sia : "valida JWT emitido\npor el SIA (integración\nreal pendiente)"
+
+note bottom of actas
+  X prohibido: Postulación, Horas
+  o cualquier otro módulo NUNCA
+  dependen de Actas ni de
+  Administración. La flecha de
+  uso va en un solo sentido:
+  sin ciclos (ADR-001, EAC-02).
+end note
+
+@enduml

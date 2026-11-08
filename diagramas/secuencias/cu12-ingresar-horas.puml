@@ -1,0 +1,43 @@
+@startuml cu12-ingresar-horas
+title ESC-03 · CU-12 Ingresar horas de práctica (demuestra EAC-03)
+skinparam backgroundColor white
+
+participant "Supervisor" as supervisor
+participant "Aplicación web" as app
+participant "Compartido/Auth\n(SupervisorTokenGuard)" as auth
+participant "Módulo Horas" as horas
+database "PostgreSQL" as db
+
+supervisor -> app : abre el enlace y registra horas
+activate app
+app -> auth : POST /horas  [header: enlace-token]
+activate auth
+auth -> db : SELECT enlace_acceso_supervisor WHERE token
+db --> auth : EnlaceAcceso
+
+alt enlace válido, no usado y no vencido
+  auth --> app : autoriza (rol = supervisor, estudianteId)
+  deactivate auth
+  app -> horas : registrar(estudianteId, fecha, horas)
+  activate horas
+  horas -> db : INSERT registro_horas (estado = REGISTRADA)
+  db --> horas : ok
+  horas --> app : 201 Registrada
+  deactivate horas
+else enlace inválido, usado o vencido
+  auth -> db : INSERT bitácora de auditoría (intento rechazado)
+  auth --> app : 401 "enlace inválido, usado o vencido"
+  deactivate auth
+end
+
+app --> supervisor : muestra el resultado
+deactivate app
+
+note over auth
+  EAC-03: el 100% de los accesos
+  no autorizados se bloquean y el
+  intento queda en bitácora en
+  menos de 1 segundo (PA-04).
+end note
+
+@enduml

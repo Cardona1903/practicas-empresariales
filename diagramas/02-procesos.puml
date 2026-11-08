@@ -1,0 +1,39 @@
+@startuml 02-procesos
+title Sistema de Gestión de Prácticas Empresariales - Vista de procesos (C4 nivel 2, contenedores)
+skinparam backgroundColor white
+skinparam rectangle {
+  RoundCorner 15
+}
+
+actor "Estudiante" as estudiante
+actor "Personal\nAdministrativo" as admin
+actor "Supervisor" as supervisor
+
+rectangle "Sistema de Gestión de Prácticas Empresariales [límite del sistema]" {
+  rectangle "Aplicación web\n<<Contenedor: SPA>>\nInterfaz de estudiante y\npersonal administrativo" as app #LightBlue
+  rectangle "API de prácticas\n<<Contenedor: Node.js / NestJS>>\nMonolito modular (ADR-001)\nReglas de postulación, horas,\nevaluación y actas" as api #LightBlue
+  database "PostgreSQL\n<<Contenedor: base de datos relacional>>\nPostulaciones, horas, evaluaciones,\nactas, configuración (ADR-002)" as db #LightBlue
+  storage "Almacenamiento de PDFs\n<<Contenedor: almacenamiento institucional>>\nActas generadas (ADR-002, RT-01)" as pdfs #LightBlue
+}
+
+rectangle "SIA\n<<Sistema externo>>" as sia #LightGray
+
+estudiante --> app : "usa (HTTPS)"
+admin --> app : "usa (HTTPS)"
+supervisor --> app : "usa, con enlace de\nun solo uso (HTTPS)"
+
+app --> api : "JSON / HTTPS"
+api --> db : "SQL"
+api --> pdfs : "guarda / lee el PDF del acta"
+api --> sia : "valida identidad (HTTPS)"
+
+note bottom of api
+  Un contenedor no es Docker: es
+  cualquier cosa que se ejecuta o
+  guarda datos por separado. No
+  hay broker ni worker porque
+  ADR-005 eligió generación
+  síncrona del acta, sin cola.
+end note
+
+@enduml

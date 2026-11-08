@@ -1,0 +1,42 @@
+@startuml cu09-postularse
+title ESC-01 · CU-09 Postularse a la práctica
+skinparam backgroundColor white
+
+participant "Estudiante" as estudiante
+participant "Aplicación web" as app
+participant "Módulo Postulación" as postulacion
+participant "Compartido/\nConfiguración" as config
+database "PostgreSQL" as db
+
+estudiante -> app : carga datos y documentos
+activate app
+app -> postulacion : POST /postulaciones
+activate postulacion
+
+postulacion -> config : consultar requisitos vigentes(programaAcademico)
+activate config
+config -> db : SQL
+db --> config : RequisitoPrograma
+config --> postulacion : horasMinimas, documentosRequeridos
+deactivate config
+
+alt documentos completos y válidos
+  postulacion -> db : INSERT postulacion (estado = RECIBIDA)
+  db --> postulacion : ok
+  postulacion --> app : 201 Creada
+else documento incompleto o corrupto
+  postulacion --> app : 422 "documento incompleto o corrupto" [ADR-006]
+end
+
+app --> estudiante : muestra el resultado
+deactivate postulacion
+deactivate app
+
+note over postulacion
+  ADR-003: la postulación queda
+  en RECIBIDA; su validación es
+  un caso de uso aparte (CU-02),
+  nunca automática (RN-01).
+end note
+
+@enduml

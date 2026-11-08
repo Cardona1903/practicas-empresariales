@@ -108,3 +108,31 @@ Los siete casos de uso no marcados como primarios (CU-01, CU-03, CU-04, CU-06, C
 ## 6. Trazabilidad hacia los ADR
 
 Ver `docs/adr/README-trazabilidad.md` para la tabla completa que mapea cada uno de estos 17 drivers al ADR que lo cubre.
+
+## 7. Escenarios (el "+1" del modelo de vistas)
+
+Siguiendo el criterio de la clase de Vistas arquitectónicas: un escenario por cada caso de uso primario (máximo 6), más uno adicional por cada EAC que no quede cubierto dentro de esos primarios. Cada escenario se describe aquí y se representa con su propio diagrama de secuencia arquitectónico en `diagramas/secuencias/`.
+
+| ID | Escenario | Origen | Por qué es escenario | EAC que cubre | Archivo en `secuencias/` |
+|---|---|---|---|---|---|
+| ESC-01 | Postularse a la práctica | CU-09 | Caso de uso primario; es la puerta de entrada al sistema. | — | `cu09-postularse.puml` |
+| ESC-02 | Revisar y validar la postulación | CU-02 | Caso de uso primario; filtro de entrada con requisitos variables por programa (ADR-003, ADR-007). | — | `cu02-revisar-postulacion.puml` |
+| ESC-03 | Ingresar horas de práctica | CU-12 | Caso de uso primario; actor externo sin cuenta institucional (ADR-004). | EAC-03 (seguridad): el enlace vencido o inválido se rechaza y queda en bitácora. | `cu12-ingresar-horas.puml` |
+| ESC-04 | Evaluar el desempeño del estudiante | CU-13 | Caso de uso primario; mismo mecanismo de acceso que CU-12 (ADR-004). | — (EAC-03 ya se demuestra en ESC-03; no hace falta repetirlo) | `cu13-evaluar-desempeno.puml` |
+| ESC-05 | Verificar horas de estudiantes | CU-05 | Caso de uso primario; consolida datos de múltiples fuentes antes del acta. | — | `cu05-verificar-horas.puml` |
+| ESC-06 | Generar el acta final | CU-07 | Caso de uso primario; "la razón de ser del sistema" (drivers.md, sección 1). | EAC-01 (eficiencia): responde en menos de 5 s, en el 95% de las solicitudes, con hasta 30 simultáneas. | `cu07-generar-acta.puml` |
+
+**EAC-02 (Mantenibilidad) no tiene un diagrama de secuencia propio.** A diferencia de EAC-01 y EAC-03, que describen una respuesta del sistema en tiempo de ejecución, EAC-02 describe un cambio en tiempo de diseño/mantenimiento ("un desarrollador... modifica la regla sin alterar los módulos de asignación de tutor, horas o generación de actas"). Esa propiedad no se puede recorrer con un diagrama de secuencia porque no hay una interacción en ejecución que mostrar; se valida inspeccionando la estructura, concretamente la separación de módulos en la Vista de desarrollo (`docs/vistas/03-desarrollo.md`) y la decisión de ADR-001. Esto es intencional, no un escenario pendiente.
+
+### Recorrido de validación (qué elementos de cada vista toca cada escenario)
+
+| Escenario | Contexto | Lógica | Procesos | Desarrollo | Física |
+|---|---|---|---|---|---|
+| ESC-01 Postularse | Estudiante, sistema | Estudiante, Postulacion, RequisitoPrograma | Aplicación web, API | Módulo Postulación, Compartido/Configuración | Servidor web, servidor de aplicaciones, servidor de BD |
+| ESC-02 Revisar postulación | Personal Administrativo, sistema | Postulacion | Aplicación web, API | Módulo Postulación, Compartido/Auth | Servidor de aplicaciones, servidor de BD |
+| ESC-03 Ingresar horas | Supervisor, sistema | Supervisor, EnlaceAcceso, RegistroHoras | Aplicación web, API | Módulo Horas, Compartido/Auth | Servidor de aplicaciones, servidor de BD |
+| ESC-04 Evaluar desempeño | Supervisor, sistema | Supervisor, EnlaceAcceso, Evaluacion | Aplicación web, API | Módulo Evaluación, Compartido/Auth | Servidor de aplicaciones, servidor de BD |
+| ESC-05 Verificar horas | Personal Administrativo, sistema | RegistroHoras | Aplicación web, API | Módulo Horas | Servidor de aplicaciones, servidor de BD |
+| ESC-06 Generar acta | Personal Administrativo, sistema | Postulacion, RegistroHoras, Acta | Aplicación web, API, almacenamiento de PDFs | Módulo Actas → Postulación, Horas (ADR-001) | Servidor de aplicaciones, servidor de BD, almacenamiento institucional |
+
+**Verificación.** Los seis casos de uso primarios tienen su escenario; EAC-01 y EAC-03 aparecen cada uno en al menos uno; cada vista es recorrida por al menos un escenario (Contexto, Lógica, Procesos y Desarrollo por los seis; Física por los seis también, ya que todos terminan en el servidor de aplicaciones y la base de datos). Ningún escenario quedó sin poder recorrerse por las vistas existentes, por lo que no fue necesario corregir ninguna vista.

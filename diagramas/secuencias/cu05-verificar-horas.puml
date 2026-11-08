@@ -1,0 +1,41 @@
+@startuml cu05-verificar-horas
+title ESC-05 · CU-05 Verificar horas de estudiantes
+skinparam backgroundColor white
+
+participant "Personal\nAdministrativo" as admin
+participant "Aplicación web" as app
+participant "Módulo Horas" as horas
+database "PostgreSQL" as db
+
+admin -> app : abre horas pendientes de verificar
+activate app
+app -> horas : GET /horas?estado=REGISTRADA
+activate horas
+horas -> db : SELECT registro_horas WHERE estado = REGISTRADA
+db --> horas : lista de registros
+horas --> app : registros pendientes
+deactivate horas
+
+loop para cada registro revisado por el administrativo
+  admin -> app : confirma o rechaza el registro
+  app -> horas : PATCH /horas/{id}
+  activate horas
+  horas -> db : UPDATE registro_horas (estado = VERIFICADA)
+  db --> horas : ok
+  horas --> app : 200 Actualizado
+  deactivate horas
+end
+
+app --> admin : muestra el resultado consolidado
+deactivate app
+
+note over horas
+  CU-05 consolida y cruza datos
+  provenientes del registro del
+  Supervisor (CU-12) y esta
+  revisión manual (RN-01); el
+  total VERIFICADA es lo que
+  luego consume CU-07.
+end note
+
+@enduml

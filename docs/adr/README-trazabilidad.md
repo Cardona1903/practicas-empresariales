@@ -35,3 +35,36 @@ Verificación de que ningún driver identificado en `drivers.md` queda sin cubri
 | ADR-005 | Generación síncrona del acta con consolidación transaccional | Generación asíncrona; delegar a SaaS externo | No (restricciones la refuerzan: RT-01, RN-02) |
 | ADR-006 | Manejo de errores centralizado con reintento manual | Reintentos automáticos; manejo ad-hoc por módulo | No |
 | ADR-007 | Requisitos de postulación como configuración por programa | Reglas embebidas en código; archivo estático | No |
+
+## Matriz de cobertura: drivers y ADR por vista
+
+Verificación de que cada driver y cada ADR se ve en al menos una de las cuatro vistas de 4+1 (más el contexto, que las encuadra). Ninguna fila queda vacía.
+
+| Driver o ADR | Contexto | Lógica | Procesos | Desarrollo | Física |
+|---|---|---|---|---|---|
+| CU-02 Revisar y validar postulación | ✓ | ✓ | | | |
+| CU-05 Verificar horas | ✓ | ✓ | | | |
+| CU-07 Generar acta | ✓ | ✓ | ✓ | ✓ | ✓ |
+| CU-09 Postularse | ✓ | ✓ | | ✓ | |
+| CU-12 Ingresar horas | ✓ | ✓ | ✓ | ✓ | |
+| CU-13 Evaluar desempeño | ✓ | ✓ | ✓ | ✓ | |
+| EAC-01 Eficiencia de desempeño | | | ✓ | ✓ | ✓ |
+| EAC-02 Mantenibilidad | | ✓ | | ✓ | |
+| EAC-03 Seguridad | ✓ | ✓ | ✓ | ✓ | |
+| RT-01 Infraestructura institucional | | | ✓ | ✓ | ✓ |
+| RN-01 Sin automatizaciones | | ✓ | | | |
+| RN-02 Acceso restringido por rol | ✓ | ✓ | ✓ | | ✓ |
+| PA-01 Estructura general | | | ✓ | ✓ | |
+| PA-02 Autenticación y autorización | | | ✓ | ✓ | |
+| PA-03 Manejo de errores | | ✓ | | ✓ | |
+| PA-04 Registro y trazabilidad | | ✓ | | ✓ | |
+| PA-05 Configuración | | ✓ | | ✓ | |
+| ADR-001 Monolito modular | | | ✓ | ✓ | |
+| ADR-002 PostgreSQL institucional | | | ✓ | ✓ | ✓ |
+| ADR-003 Máquina de estados, postulación | | ✓ | | ✓ | |
+| ADR-004 SSO + enlace de un solo uso | ✓ | ✓ | ✓ | ✓ | |
+| ADR-005 Generación síncrona del acta | | | ✓ | ✓ | ✓ |
+| ADR-006 Manejo de errores centralizado | | ✓ | | ✓ | |
+| ADR-007 Configuración por programa | | ✓ | | ✓ | |
+
+**Lectura.** Cada vista tiene al menos una marca en cada columna y ninguna fila está completamente vacía; el detalle de por qué cada marca aplica está en la sección "3. Justificación" de cada `docs/vistas/0X-*.md` y de `docs/contexto.md`. La columna Física concentra menos marcas porque la mayoría de los drivers son de comportamiento o de estructura de código, no de topología de despliegue — solo los que tocan directamente la infraestructura institucional (RT-01), el acceso por roles (RN-02) o el desempeño bajo carga (EAC-01) la tocan.

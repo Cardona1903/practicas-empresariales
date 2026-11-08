@@ -1,0 +1,37 @@
+@startuml 04-fisica
+title Sistema de Gestión de Prácticas Empresariales - Vista física (diagrama de despliegue)
+skinparam backgroundColor white
+skinparam rectangle {
+  RoundCorner 12
+}
+
+rectangle "Centro de datos de la Universidad de Caldas (RT-01)" {
+  node "Servidor web" as servweb {
+    rectangle "Aplicación web\n<<Contenedor: SPA, archivos estáticos>>" as app
+  }
+  node "Servidor de aplicaciones" as servapp {
+    rectangle "API de prácticas\n<<Contenedor: Node.js / NestJS>>" as api
+  }
+  node "Servidor de base de datos" as servdb {
+    database "PostgreSQL" as db
+  }
+  node "Almacenamiento institucional" as servpdf {
+    storage "Almacenamiento de PDFs" as pdfs
+  }
+}
+
+rectangle "SIA\n<<Sistema externo>>" as sia #LightGray
+
+app --> api : "JSON / HTTPS"
+api --> db : "SQL"
+api --> pdfs : "lee / escribe"
+api --> sia : "HTTPS"
+
+note right of servdb
+  RT-01 y RN-02 se verifican
+  aquí: todo corre en la
+  infraestructura institucional
+  y los datos no salen de ella.
+end note
+
+@enduml

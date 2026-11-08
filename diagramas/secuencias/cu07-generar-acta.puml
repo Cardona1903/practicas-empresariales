@@ -1,0 +1,61 @@
+@startuml cu07-generar-acta
+title ESC-06 · CU-07 Generar el acta final (demuestra EAC-01)
+skinparam backgroundColor white
+
+participant "Personal\nAdministrativo" as admin
+participant "Aplicación web" as app
+participant "Módulo Actas" as actas
+participant "Módulo Postulación" as postulacion
+participant "Módulo Horas" as horas
+participant "Almacenamiento\nde PDFs" as pdfs
+database "PostgreSQL" as db
+
+admin -> app : confirma finalización y solicita el acta
+activate app
+app -> actas : POST /actas  {estudianteId}
+activate actas
+
+actas -> postulacion : estaValidada(estudianteId)
+activate postulacion
+postulacion --> actas : true / false
+deactivate postulacion
+
+alt postulación validada
+  actas -> horas : totalHorasValidadas(estudianteId)
+  activate horas
+  horas --> actas : totalHoras
+  deactivate horas
+
+  actas -> actas : generar PDF del acta (en el propio\nservidor, sin servicio externo)
+
+  alt generación exitosa
+    actas -> pdfs : guardar PDF
+    pdfs --> actas : rutaPdf
+    actas -> db : INSERT acta (estado = GENERADA) [transacción]
+    db --> actas : ok
+    actas --> app : 201 Acta generada
+  else fallo en la generación
+    actas -> db : INSERT acta (estado = FALLIDA, detalleError) [ADR-006]
+    db --> actas : ok
+    actas --> app : 500 "no se pudo generar el acta, reintentar manualmente"
+  end
+else postulación no validada
+  actas --> app : 409 "la postulación aún no está validada" [ADR-003]
+end
+
+app --> admin : muestra el resultado
+deactivate actas
+deactivate app
+
+note over actas
+  EAC-01: en operación normal, con
+  hasta 30 solicitudes simultáneas
+  durante el cierre de semestre, la
+  respuesta completa (consolidar +
+  generar + guardar) se da en menos
+  de 5 s en el 95% de las solicitudes.
+  Por eso es síncrona y transaccional
+  (ADR-005), no encolada.
+end note
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml cu02-revisar-postulacion
+title ESC-02 · CU-02 Revisar y validar la postulación
+skinparam backgroundColor white
+
+participant "Personal\nAdministrativo" as admin
+participant "Aplicación web" as app
+participant "Módulo Postulación" as postulacion
+database "PostgreSQL" as db
+
+admin -> app : revisa postulación y decide
+activate app
+app -> postulacion : PATCH /postulaciones/{id} (nuevo estado)
+activate postulacion
+
+postulacion -> db : SELECT postulacion
+db --> postulacion : estado actual
+
+alt transición permitida [ver TRANSICIONES_VALIDAS, ADR-003]
+  postulacion -> db : UPDATE estado (p. ej. EN_REVISION → VALIDADA)
+  db --> postulacion : ok
+  postulacion --> app : 200 Actualizada
+else transición no permitida
+  postulacion --> app : 409 "transición de estado inválida"
+end
+
+app --> admin : muestra el resultado
+deactivate postulacion
+deactivate app
+
+note over postulacion
+  RN-01: la transición solo la
+  dispara esta acción humana
+  explícita del administrativo;
+  no hay aprobación automática.
+end note
+
+@enduml

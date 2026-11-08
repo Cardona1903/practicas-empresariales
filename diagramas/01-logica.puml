@@ -1,0 +1,95 @@
+@startuml 01-logica
+title Sistema de Gestión de Prácticas Empresariales - Vista lógica (modelo de dominio)
+skinparam backgroundColor white
+hide circle
+hide methods
+skinparam class {
+  BackgroundColor White
+  ArrowColor Black
+}
+
+class Estudiante {
+  documento
+  programaAcademico
+}
+
+class Postulacion {
+  estado
+  documentosAdjuntos
+}
+
+class RequisitoPrograma {
+  programaAcademico
+  horasMinimas
+  documentosRequeridos
+}
+
+class Supervisor {
+  correo
+}
+
+class AsignacionTutor {
+  asignadaEn
+}
+
+class RegistroHoras {
+  fecha
+  horas
+  estado
+}
+
+class Evaluacion {
+  calificacion
+  comentarios
+}
+
+class Acta {
+  estado
+  totalHoras
+  rutaPdf
+}
+
+class EnlaceAcceso {
+  token
+  expiraEn
+  usado
+}
+
+class RegistroAuditoria {
+  evento
+  actorId
+  resultado
+  fecha
+}
+
+Estudiante "1" -- "0..1" Postulacion
+Postulacion "0..*" -- "1" RequisitoPrograma : valida contra >
+Estudiante "1" -- "0..1" AsignacionTutor
+AsignacionTutor "0..1" -- "1" Supervisor
+Estudiante "1" -- "0..*" RegistroHoras
+RegistroHoras "0..*" -- "1" Supervisor : registra >
+Estudiante "1" -- "0..1" Evaluacion
+Evaluacion "0..*" -- "1" Supervisor : realiza >
+Estudiante "1" -- "0..1" Acta
+Estudiante "1" -- "0..*" EnlaceAcceso
+EnlaceAcceso "0..*" -- "1" Supervisor : habilita acceso de >
+
+note bottom of Acta
+  Solo existe si la práctica fue
+  validada y las horas, verificadas
+  (CU-02, CU-05, ADR-003).
+end note
+
+note bottom of EnlaceAcceso
+  Expira y se marca "usado";
+  no se reutiliza (ADR-004).
+end note
+
+note bottom of RegistroAuditoria
+  PA-04: todo acceso no autorizado
+  (EAC-03) y todo cambio de estado
+  queda aquí, no solo en el log de
+  la aplicación.
+end note
+
+@enduml

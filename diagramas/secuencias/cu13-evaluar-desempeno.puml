@@ -1,0 +1,43 @@
+@startuml cu13-evaluar-desempeno
+title ESC-04 · CU-13 Evaluar el desempeño del estudiante
+skinparam backgroundColor white
+
+participant "Supervisor" as supervisor
+participant "Aplicación web" as app
+participant "Compartido/Auth\n(SupervisorTokenGuard)" as auth
+participant "Módulo Evaluación" as evaluacion
+database "PostgreSQL" as db
+
+supervisor -> app : abre el enlace y evalúa al estudiante
+activate app
+app -> auth : POST /evaluaciones  [header: enlace-token]
+activate auth
+auth -> db : SELECT enlace_acceso_supervisor WHERE token
+db --> auth : EnlaceAcceso
+
+alt enlace válido, no usado y no vencido
+  auth --> app : autoriza (rol = supervisor, estudianteId)
+  deactivate auth
+  app -> evaluacion : registrar(estudianteId, calificacion, comentarios)
+  activate evaluacion
+  evaluacion -> db : INSERT evaluacion
+  db --> evaluacion : ok
+  evaluacion --> app : 201 Registrada
+  deactivate evaluacion
+else enlace inválido, usado o vencido
+  auth -> db : INSERT bitácora de auditoría (intento rechazado)
+  auth --> app : 401 "enlace inválido, usado o vencido"
+  deactivate auth
+end
+
+app --> supervisor : muestra el resultado
+deactivate app
+
+note over auth
+  Mismo mecanismo de acceso que
+  ESC-03 (ADR-004); no se repite
+  en detalle porque EAC-03 ya
+  quedó demostrado allí.
+end note
+
+@enduml
