@@ -4,7 +4,7 @@
 
 ## 1. Presentación principal
 
-Diagrama: [`diagramas/contexto.puml`](../diagramas/contexto.puml)
+Diagrama: [`diagramas/contexto.puml`](diagramas/contexto.puml)
 
 El sistema se trata como una caja negra: qué actores lo usan y con qué sistema externo se integra, sin mostrar su estructura interna.
 

@@ -4,7 +4,7 @@
 
 ## 1. Presentación principal
 
-Diagrama: [`diagramas/01-logica.puml`](../../diagramas/01-logica.puml)
+Diagrama: [`diagramas/01-logica.puml`](../diagramas/01-logica.puml)
 
 Muestra los conceptos del negocio y cómo se relacionan — no las clases del código. Solo atributos clave, sin tipos, visibilidad ni métodos.
 

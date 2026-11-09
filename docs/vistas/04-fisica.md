@@ -4,7 +4,7 @@
 
 ## 1. Presentación principal
 
-Diagrama: [`diagramas/04-fisica.puml`](../../diagramas/04-fisica.puml)
+Diagrama: [`diagramas/04-fisica.puml`](../diagramas/04-fisica.puml)
 
 ## 2. Catálogo de elementos
 

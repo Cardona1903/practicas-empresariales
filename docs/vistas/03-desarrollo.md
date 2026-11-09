@@ -4,7 +4,7 @@
 
 ## 1. Presentación principal
 
-Diagrama: [`diagramas/03-desarrollo.puml`](../../diagramas/03-desarrollo.puml)
+Diagrama: [`diagramas/03-desarrollo.puml`](../diagramas/03-desarrollo.puml)
 
 **Nota sobre las "capas".** La clase de referencia dibuja esta vista con capas de Clean Architecture (dominio / aplicación / infraestructura, con puertos y adaptadores explícitos). El código real de este proyecto (carpeta `src/`, ya construido en NestJS) **no** separa esas tres capas dentro de cada módulo: cada módulo tiene un `Controller` (adaptador HTTP), un `Service` (caso de uso) y accede a su propio repositorio de TypeORM directamente con `@InjectRepository`, sin una interfaz de puerto intermedia. Ningún driver de `drivers.md` exige hexagonal puro — ADR-001 solo exige que un módulo no acceda a las tablas de otro, lo cual sí se cumple y se puede verificar en el código (ver más abajo). Se documenta esta simplificación explícitamente en vez de dibujar una capa que no existe.
 

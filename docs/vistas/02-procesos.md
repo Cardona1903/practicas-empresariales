@@ -4,7 +4,7 @@
 
 ## 1. Presentación principal
 
-Diagrama: [`diagramas/02-procesos.puml`](../../diagramas/02-procesos.puml)
+Diagrama: [`diagramas/02-procesos.puml`](../diagramas/02-procesos.puml)
 
 ## 2. Catálogo de elementos
 
