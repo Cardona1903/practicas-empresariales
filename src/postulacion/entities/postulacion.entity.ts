@@ -29,6 +29,9 @@ export class Postulacion {
   @Column({ type: 'simple-array' })
   documentosAdjuntos: string[];
 
+  @Column({ type: 'text', nullable: true })
+  motivoRechazo: string | null;
+
   @ManyToOne(() => Estudiante, (estudiante) => estudiante.postulaciones, {
     eager: true,
     cascade: ['insert'],

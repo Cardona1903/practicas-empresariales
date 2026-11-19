@@ -3,7 +3,7 @@
       Escenarios: Rechazo sin motivo (excepción), Transición de estado no permitida (excepción), Revisión de una postulación inexistente (excepción)
       Depende de: ninguna
 
-- [ ] T-02 Atributo motivoRechazo en la entidad Postulacion (ADR-002)
+- [x] T-02 Atributo motivoRechazo en la entidad Postulacion (ADR-002)
       Archivos: src/postulacion/entities/postulacion.entity.ts
       Escenarios: Rechazar una postulación en revisión (flujo alterno)
       Depende de: ninguna
