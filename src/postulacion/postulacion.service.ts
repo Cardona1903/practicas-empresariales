@@ -5,17 +5,36 @@ import { Postulacion } from './entities/postulacion.entity';
 import { Estudiante } from './entities/estudiante.entity';
 import { EstadoPostulacion } from './enums/estado-postulacion.enum';
 import { CrearPostulacionDto } from './dto/crear-postulacion.dto';
+import { RevisarPostulacionDto } from './dto/revisar-postulacion.dto';
 import { ConfiguracionService } from '../compartido/configuracion/configuracion.service';
+import { AuditoriaService } from '../compartido/auditoria/auditoria.service';
 import {
   DocumentoIncompletoError,
   DocumentoCorruptoError,
   PostulacionActivaExistenteError,
+  PostulacionNoEncontradaError,
+  TransicionEstadoInvalidaError,
+  MotivoRechazoObligatorioError,
 } from '../compartido/errores/dominio.error';
 import { UsuarioAutenticado } from '../compartido/auth/decorators/usuario-actual.decorator';
 
 /**
- * Servicio del Módulo Postulación (CU-09, ADR-001, ADR-003, ADR-006, ADR-007).
- * Orquesta la lógica del caso de uso de postularse y respeta la modularidad estricta.
+ * Tabla explícita de transiciones permitidas en la máquina de estados de postulación (ADR-003, RN-01).
+ * Toda transición debe ser disparada manualmente por un actor administrativo autenticado.
+ */
+export const TRANSICIONES_VALIDAS: Record<EstadoPostulacion, EstadoPostulacion[]> = {
+  [EstadoPostulacion.RECIBIDA]: [EstadoPostulacion.EN_REVISION],
+  [EstadoPostulacion.EN_REVISION]: [
+    EstadoPostulacion.VALIDADA,
+    EstadoPostulacion.RECHAZADA,
+  ],
+  [EstadoPostulacion.VALIDADA]: [],
+  [EstadoPostulacion.RECHAZADA]: [],
+};
+
+/**
+ * Servicio del Módulo Postulación (CU-01, CU-02, CU-09, ADR-001, ADR-003, ADR-006, ADR-007).
+ * Orquesta la lógica de postulación, consulta y revisión manual respetando la modularidad estricta.
  */
 @Injectable()
 export class PostulacionService {
@@ -27,6 +46,7 @@ export class PostulacionService {
     @InjectRepository(Estudiante)
     private readonly estudianteRepo: Repository<Estudiante>,
     private readonly configuracionService: ConfiguracionService,
+    private readonly auditoriaService: AuditoriaService,
   ) {}
 
   /**
@@ -165,5 +185,79 @@ export class PostulacionService {
       where,
       order: { creadaEn: 'DESC' },
     });
+  }
+
+  /**
+   * Revisa y cambia manualmente el estado de una postulación (CU-02, ADR-003, RN-01, PA-04).
+   * Verifica existencia (404), transición válida en TRANSICIONES_VALIDAS (409),
+   * motivo obligatorio en caso de rechazo (400) y registra el cambio en RegistroAuditoria.
+   */
+  async revisarPostulacion(
+    id: string,
+    dto: RevisarPostulacionDto,
+    actorId: string,
+  ): Promise<Postulacion> {
+    // 1. Verificar que la postulación exista
+    const postulacion = await this.postulacionRepo.findOne({
+      where: { id },
+    });
+
+    if (!postulacion) {
+      this.logger.warn(`Intento de revisar postulación inexistente [ID: ${id}]`);
+      throw new PostulacionNoEncontradaError(
+        `La postulación con identificador "${id}" no existe`,
+      );
+    }
+
+    // 2. Validar que la transición esté permitida en la máquina de estados (ADR-003, RN-01)
+    const estadoAnterior = postulacion.estado;
+    const transicionesPermitidas = TRANSICIONES_VALIDAS[estadoAnterior] ?? [];
+
+    if (!transicionesPermitidas.includes(dto.estado)) {
+      this.logger.warn(
+        `Transición de estado inválida en postulación [${id}]: ${estadoAnterior} -> ${dto.estado}`,
+      );
+      throw new TransicionEstadoInvalidaError(
+        `Transición de estado inválida: no se permite pasar de "${estadoAnterior}" a "${dto.estado}"`,
+      );
+    }
+
+    // 3. Si el estado destino es RECHAZADA, exigir motivo obligatorio
+    if (dto.estado === EstadoPostulacion.RECHAZADA) {
+      const motivoLimpio = dto.motivo?.trim();
+      if (!motivoLimpio) {
+        this.logger.warn(
+          `Rechazo denegado en postulación [${id}]: no se proporcionó motivo de rechazo`,
+        );
+        throw new MotivoRechazoObligatorioError(
+          'El motivo del rechazo es obligatorio cuando se rechaza una postulación',
+        );
+      }
+      postulacion.motivoRechazo = motivoLimpio;
+    }
+
+    // 4. Actualizar estado de la postulación
+    postulacion.estado = dto.estado;
+    const actualizada = await this.postulacionRepo.save(postulacion);
+
+    // 5. Registrar cambio de estado crítico en bitácora de auditoría vía servicio exportado (PA-04, ADR-001)
+    if (this.auditoriaService) {
+      await this.auditoriaService.registrarEvento(
+        'CAMBIO_ESTADO_POSTULACION',
+        'EXITOSO',
+        actorId,
+        `Postulación [${actualizada.id}]: estado anterior "${estadoAnterior}" -> nuevo estado "${dto.estado}"${
+          dto.estado === EstadoPostulacion.RECHAZADA
+            ? ` | Motivo: "${actualizada.motivoRechazo}"`
+            : ''
+        }`,
+      );
+    }
+
+    this.logger.log(
+      `Postulación [${actualizada.id}] actualizada manualmente por [${actorId}]: ${estadoAnterior} -> ${dto.estado}`,
+    );
+
+    return actualizada;
   }
 }

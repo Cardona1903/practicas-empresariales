@@ -13,7 +13,7 @@
       Escenarios: Tomar en revisión una postulación recibida (flujo básico), Validar una postulación en revisión (flujo básico), Rechazar una postulación en revisión (flujo alterno), Estado solicitado que no pertenece a la máquina de estados (excepción)
       Depende de: ninguna
 
-- [ ] T-04 Máquina de estados TRANSICIONES_VALIDAS, revisión y auditoría en PostulacionService (ADR-003, PA-04)
+- [x] T-04 Máquina de estados TRANSICIONES_VALIDAS, revisión y auditoría en PostulacionService (ADR-003, PA-04)
       Archivos: src/postulacion/postulacion.service.ts
       Escenarios: Tomar en revisión una postulación recibida (flujo básico), Validar una postulación en revisión (flujo básico), Rechazar una postulación en revisión (flujo alterno), Rechazo sin motivo (excepción), Transición de estado no permitida (excepción), Revisión de una postulación inexistente (excepción), Registro en bitácora de cada cambio de estado (PA-04)
       Depende de: T-01, T-02, T-03
