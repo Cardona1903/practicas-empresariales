@@ -6,21 +6,21 @@ A continuación se extraen los drivers arquitectónicos del sistema a partir del
 
 Se listan 13 casos de uso agrupados por actor. Se marcan como primarios (máximo 6) los que cumplen alguno de los cinco criterios vistos en clase: importancia para el negocio, complejidad técnica, alta frecuencia de uso, riesgo, o estar atado a un atributo de calidad crítico.
 
-| ID | Actor | Caso de uso | ¿Primario? | Justificación (criterio) |
-|---|---|---|---|---|
-| CU-01 | Personal Administrativo | Visualizar peticiones de postulación | No | Consulta estándar sobre datos ya existentes en el sistema; no estructura la arquitectura. |
-| **CU-02** | Personal Administrativo | Revisar y validar la postulación del estudiante | **Sí** | Riesgo: los requisitos de validación varían por programa académico y aún no están estandarizados; es el filtro de entrada a todo el proceso. |
-| CU-03 | Personal Administrativo | Asignar tutor al estudiante | No | Actualización simple de una relación estudiante-tutor; sin complejidad ni riesgo relevante. |
-| CU-04 | Personal Administrativo | Visualización de datos de postulantes | No | Consulta estándar, similar a CU-01. |
-| **CU-05** | Personal Administrativo | Verificar horas de estudiantes | **Sí** | Complejidad técnica: consolida y cruza datos provenientes de múltiples fuentes (registro del supervisor y revisión manual) antes de habilitar el acta. |
-| CU-06 | Personal Administrativo | Dar confirmación para la generación del acta final | No | Es un cambio de estado (aprobación); la complejidad real está en CU-07, que genera el documento. |
-| **CU-07** | Personal Administrativo | Generar el acta final de la práctica (PDF) | **Sí** | Atado a un atributo de calidad crítico (integridad/fiabilidad de los datos) y es la razón de ser del sistema según el enunciado; un error aquí obliga a reemitir el acta. |
-| CU-08 | Personal Administrativo | Consultar reportes/indicadores del estado de las prácticas en curso | No | Valioso para el negocio, pero no estructura el sistema; depende de datos ya consolidados por otros casos de uso. |
-| **CU-09** | Estudiante | Realizar postulación a la práctica (cargar datos y documentos requeridos) | **Sí** | Importancia para el negocio: es la puerta de entrada y la razón de ser del sistema. |
-| CU-10 | Estudiante | Consultar el estado de la postulación y el avance de horas | No | Consulta de solo lectura sobre datos ya gestionados por otros casos de uso. |
-| CU-11 | Estudiante | Generar petición del acta final | No | Es un disparador simple (solicitud) que activa CU-07; en sí mismo no tiene complejidad. |
-| **CU-12** | Supervisor de práctica | Ingresar horas de práctica de los estudiantes | **Sí** | Alta frecuencia de uso: se repite semanalmente, por cientos de estudiantes, durante los 4 a 6 meses de cada práctica. |
-| **CU-13** | Supervisor de práctica | Evaluar el desempeño del estudiante en práctica | **Sí** | Atado a un atributo de calidad crítico: capacidad de interacción para un actor externo sin cuenta institucional (RN-02); condiciona el mecanismo de acceso. |
+| ID | Actor | Caso de uso | ¿Primario? | Justificación (criterio) | Se especifica en |
+|---|---|---|---|---|---|
+| CU-01 | Personal Administrativo | Visualizar peticiones de postulación | No | Consulta estándar sobre datos ya existentes en el sistema; no estructura la arquitectura. | [specs/001-visualizar-peticiones](../specs/001-visualizar-peticiones/) |
+| **CU-02** | Personal Administrativo | Revisar y validar la postulación del estudiante | **Sí** | Riesgo: los requisitos de validación varían por programa académico y aún no están estandarizados; es el filtro de entrada a todo el proceso. | [specs/002-revisar-postulacion](../specs/002-revisar-postulacion/) |
+| CU-03 | Personal Administrativo | Asignar tutor al estudiante | No | Actualización simple de una relación estudiante-tutor; sin complejidad ni riesgo relevante. | (sin especificar) |
+| CU-04 | Personal Administrativo | Visualización de datos de postulantes | No | Consulta estándar, similar a CU-01. | (sin especificar) |
+| **CU-05** | Personal Administrativo | Verificar horas de estudiantes | **Sí** | Complejidad técnica: consolida y cruza datos provenientes de múltiples fuentes (registro del supervisor y revisión manual) antes de habilitar el acta. | (sin especificar) |
+| CU-06 | Personal Administrativo | Dar confirmación para la generación del acta final | No | Es un cambio de estado (aprobación); la complejidad real está en CU-07, que genera el documento. | (sin especificar) |
+| **CU-07** | Personal Administrativo | Generar el acta final de la práctica (PDF) | **Sí** | Atado a un atributo de calidad crítico (integridad/fiabilidad de los datos) y es la razón de ser del sistema según el enunciado; un error aquí obliga a reemitir el acta. | (sin especificar) |
+| CU-08 | Personal Administrativo | Consultar reportes/indicadores del estado de las prácticas en curso | No | Valioso para el negocio, pero no estructura el sistema; depende de datos ya consolidados por otros casos de uso. | (sin especificar) |
+| **CU-09** | Estudiante | Realizar postulación a la práctica (cargar datos y documentos requeridos) | **Sí** | Importancia para el negocio: es la puerta de entrada y la razón de ser del sistema. | [specs/009-postularse](../specs/009-postularse/) |
+| CU-10 | Estudiante | Consultar el estado de la postulación y el avance de horas | No | Consulta de solo lectura sobre datos ya gestionados por otros casos de uso. | (sin especificar) |
+| CU-11 | Estudiante | Generar petición del acta final | No | Es un disparador simple (solicitud) que activa CU-07; en sí mismo no tiene complejidad. | (sin especificar) |
+| **CU-12** | Supervisor de práctica | Ingresar horas de práctica de los estudiantes | **Sí** | Alta frecuencia de uso: se repite semanalmente, por cientos de estudiantes, durante los 4 a 6 meses de cada práctica. | (sin especificar) |
+| **CU-13** | Supervisor de práctica | Evaluar el desempeño del estudiante en práctica | **Sí** | Atado a un atributo de calidad crítico: capacidad de interacción para un actor externo sin cuenta institucional (RN-02); condiciona el mecanismo de acceso. | (sin especificar) |
 
 **Nota:** en el borrador inicial dos casos de uso mencionaban "certificado"; se ajustó la redacción a "acta" (CU-06, CU-07 y CU-11) para mantener consistencia con el alcance definido en `vision.md`, que habla de "acta de finalización".
 
