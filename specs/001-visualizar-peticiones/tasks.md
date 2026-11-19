@@ -8,7 +8,7 @@
       Escenarios: Consulta exitosa del listado general de peticiones (flujo básico), Consulta de peticiones cuando no existen registros en el sistema (flujo alterno), Filtrado opcional de peticiones por estado de postulación (flujo alterno)
       Depende de: T-01
 
-- [ ] T-03 Endpoint administrativo GET /postulaciones con RBAC en el controlador
+- [x] T-03 Endpoint administrativo GET /postulaciones con RBAC en el controlador
       Archivos: src/postulacion/postulacion.controller.ts
       Escenarios: Consulta exitosa del listado general de peticiones (flujo básico), Consulta de peticiones cuando no existen registros en el sistema (flujo alterno), Filtrado opcional de peticiones por estado de postulación (flujo alterno), Bloqueo de consulta de postulaciones sin autenticación o rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02

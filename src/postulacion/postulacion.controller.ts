@@ -3,6 +3,7 @@ import {
   Post,
   Get,
   Body,
+  Query,
   UseGuards,
   HttpCode,
   HttpStatus,
@@ -11,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { PostulacionService } from './postulacion.service';
 import { CrearPostulacionDto } from './dto/crear-postulacion.dto';
+import { ConsultarPostulacionesFiltroDto } from './dto/consultar-postulaciones-filtro.dto';
 import { SsoAuthGuard } from '../compartido/auth/guards/sso-auth.guard';
 import { RolesGuard } from '../compartido/auth/guards/roles.guard';
 import { Roles } from '../compartido/auth/decorators/roles.decorator';
@@ -55,5 +57,20 @@ export class PostulacionController {
     @UsuarioActual() usuario: UsuarioAutenticado,
   ): Promise<Postulacion | null> {
     return this.postulacionService.obtenerPorEstudiante(usuario.documento);
+  }
+
+  /**
+   * GET /postulaciones
+   * Consulta el listado de peticiones de postulación con filtrado opcional por estado (CU-01).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-004, EAC-03).
+   * Responde HTTP 200 con el listado ordenado cronológicamente por fecha de radicación descendente.
+   */
+  @Get()
+  @Roles('ADMINISTRATIVO')
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async listarPostulaciones(
+    @Query() filtro: ConsultarPostulacionesFiltroDto,
+  ): Promise<Postulacion[]> {
+    return this.postulacionService.listarPostulaciones(filtro.estado);
   }
 }
