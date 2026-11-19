@@ -13,7 +13,7 @@
       Escenarios: Consulta exitosa del listado general de peticiones (flujo básico), Consulta de peticiones cuando no existen registros en el sistema (flujo alterno), Filtrado opcional de peticiones por estado de postulación (flujo alterno), Bloqueo de consulta de postulaciones sin autenticación o rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Validación y verificación de escenarios en validacion.md
+- [x] T-04 Validación y verificación de escenarios en validacion.md
       Archivos: specs/001-visualizar-peticiones/validacion.md
       Escenarios: Consulta exitosa del listado general de peticiones (flujo básico), Consulta de peticiones cuando no existen registros en el sistema (flujo alterno), Filtrado opcional de peticiones por estado de postulación (flujo alterno), Bloqueo de consulta de postulaciones sin autenticación o rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-03
