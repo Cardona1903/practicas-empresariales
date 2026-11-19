@@ -8,7 +8,7 @@
       Escenarios: Rechazar una postulación en revisión (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-03 DTO de revisión de postulación con validaciones de estado y motivo
+- [x] T-03 DTO de revisión de postulación con validaciones de estado y motivo
       Archivos: src/postulacion/dto/revisar-postulacion.dto.ts
       Escenarios: Tomar en revisión una postulación recibida (flujo básico), Validar una postulación en revisión (flujo básico), Rechazar una postulación en revisión (flujo alterno), Estado solicitado que no pertenece a la máquina de estados (excepción)
       Depende de: ninguna
