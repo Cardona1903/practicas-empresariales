@@ -18,27 +18,27 @@
       Escenarios: Bloqueo de postulación sin autenticación o rol indebido (EAC-03 - Seguridad), Carga exitosa de postulación con requisitos completos (flujo básico)
       Depende de: T-02
 
-- [ ] T-05 Entidades de postulación, estudiante y enum de estados (ADR-002, ADR-003)
+- [x] T-05 Entidades de postulación, estudiante y enum de estados (ADR-002, ADR-003)
       Archivos: src/postulacion/enums/estado-postulacion.enum.ts, src/postulacion/entities/estudiante.entity.ts, src/postulacion/entities/postulacion.entity.ts
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico)
       Depende de: ninguna
 
-- [ ] T-06 DTO de creación de postulación con validaciones
+- [x] T-06 DTO de creación de postulación con validaciones
       Archivos: src/postulacion/dto/crear-postulacion.dto.ts
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Rechazo de postulación por documentos incompletos (flujo alterno - excepción), Rechazo de postulación por archivo corrupto o ilegible (flujo alterno - excepción)
       Depende de: T-05
 
-- [ ] T-07 Servicio de postulación con máquina de estados y validación de reglas de negocio
+- [x] T-07 Servicio de postulación con máquina de estados y validación de reglas de negocio
       Archivos: src/postulacion/postulacion.service.ts
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Rechazo de postulación por documentos incompletos (flujo alterno - excepción), Rechazo de postulación por archivo corrupto o ilegible (flujo alterno - excepción), Intento de postulación cuando ya existe una postulación activa (flujo alterno - excepción), Modificación de requisitos de postulación sin tocar código ni redesplegar (EAC-02 - Mantenibilidad)
       Depende de: T-01, T-03, T-05, T-06
 
-- [ ] T-08 Controlador de postulación con endpoints y guards institucionales
+- [x] T-08 Controlador de postulación con endpoints y guards institucionales
       Archivos: src/postulacion/postulacion.controller.ts
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Bloqueo de postulación sin autenticación o rol indebido (EAC-03 - Seguridad)
       Depende de: T-04, T-07
 
-- [ ] T-09 Integración modular en PostulacionModule y AppModule
+- [x] T-09 Integración modular en PostulacionModule y AppModule
       Archivos: src/postulacion/postulacion.module.ts, src/app.module.ts
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Modificación de requisitos de postulación sin tocar código ni redesplegar (EAC-02 - Mantenibilidad)
       Depende de: T-08
