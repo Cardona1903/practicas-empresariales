@@ -38,3 +38,21 @@ export class AccesoNoAutorizadoError extends DominioError {
     super(mensaje, HttpStatus.FORBIDDEN);
   }
 }
+
+export class PostulacionNoEncontradaError extends DominioError {
+  constructor(mensaje = 'La postulación solicitada no existe') {
+    super(mensaje, HttpStatus.NOT_FOUND);
+  }
+}
+
+export class TransicionEstadoInvalidaError extends DominioError {
+  constructor(mensaje = 'Transición de estado inválida') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
+
+export class MotivoRechazoObligatorioError extends DominioError {
+  constructor(mensaje = 'El motivo del rechazo es obligatorio cuando se rechaza una postulación') {
+    super(mensaje, HttpStatus.BAD_REQUEST);
+  }
+}

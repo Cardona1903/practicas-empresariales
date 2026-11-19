@@ -1,4 +1,4 @@
-- [ ] T-01 Errores de dominio para revisión de postulación (ADR-006)
+- [x] T-01 Errores de dominio para revisión de postulación (ADR-006)
       Archivos: src/compartido/errores/dominio.error.ts
       Escenarios: Rechazo sin motivo (excepción), Transición de estado no permitida (excepción), Revisión de una postulación inexistente (excepción)
       Depende de: ninguna
