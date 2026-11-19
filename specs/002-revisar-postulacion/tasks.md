@@ -18,7 +18,7 @@
       Escenarios: Tomar en revisión una postulación recibida (flujo básico), Validar una postulación en revisión (flujo básico), Rechazar una postulación en revisión (flujo alterno), Rechazo sin motivo (excepción), Transición de estado no permitida (excepción), Revisión de una postulación inexistente (excepción), Registro en bitácora de cada cambio de estado (PA-04)
       Depende de: T-01, T-02, T-03
 
-- [ ] T-05 Endpoint administrativo PATCH /postulaciones/:id con RBAC en PostulacionController (ADR-004, EAC-03)
+- [x] T-05 Endpoint administrativo PATCH /postulaciones/:id con RBAC en PostulacionController (ADR-004, EAC-03)
       Archivos: src/postulacion/postulacion.controller.ts
       Escenarios: Tomar en revisión una postulación recibida (flujo básico), Validar una postulación en revisión (flujo básico), Rechazar una postulación en revisión (flujo alterno), Rechazo sin motivo (excepción), Transición de estado no permitida (excepción), Estado solicitado que no pertenece a la máquina de estados (excepción), Revisión de una postulación inexistente (excepción), Registro en bitácora de cada cambio de estado (PA-04), Bloqueo de la revisión sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-04

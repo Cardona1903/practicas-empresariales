@@ -2,6 +2,8 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
+  Param,
   Body,
   Query,
   UseGuards,
@@ -13,6 +15,7 @@ import {
 import { PostulacionService } from './postulacion.service';
 import { CrearPostulacionDto } from './dto/crear-postulacion.dto';
 import { ConsultarPostulacionesFiltroDto } from './dto/consultar-postulaciones-filtro.dto';
+import { RevisarPostulacionDto } from './dto/revisar-postulacion.dto';
 import { SsoAuthGuard } from '../compartido/auth/guards/sso-auth.guard';
 import { RolesGuard } from '../compartido/auth/guards/roles.guard';
 import { Roles } from '../compartido/auth/decorators/roles.decorator';
@@ -72,5 +75,27 @@ export class PostulacionController {
     @Query() filtro: ConsultarPostulacionesFiltroDto,
   ): Promise<Postulacion[]> {
     return this.postulacionService.listarPostulaciones(filtro.estado);
+  }
+
+  /**
+   * PATCH /postulaciones/:id
+   * Revisa y cambia manualmente el estado de una postulación (CU-02).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-003, ADR-004, EAC-03, RN-01).
+   * Responde HTTP 200 con la postulación actualizada.
+   */
+  @Patch(':id')
+  @Roles('ADMINISTRATIVO')
+  @HttpCode(HttpStatus.OK)
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async revisarPostulacion(
+    @Param('id') id: string,
+    @Body() dto: RevisarPostulacionDto,
+    @UsuarioActual() usuario: UsuarioAutenticado,
+  ): Promise<Postulacion> {
+    return this.postulacionService.revisarPostulacion(
+      id,
+      dto,
+      usuario.documento,
+    );
   }
 }
