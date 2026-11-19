@@ -43,7 +43,7 @@
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Modificación de requisitos de postulación sin tocar código ni redesplegar (EAC-02 - Mantenibilidad)
       Depende de: T-08
 
-- [ ] T-10 Validación y verificación de escenarios en validacion.md
+- [x] T-10 Validación y verificación de escenarios en validacion.md
       Archivos: specs/009-postularse/validacion.md
       Escenarios: Carga exitosa de postulación con requisitos completos (flujo básico), Rechazo de postulación por documentos incompletos (flujo alterno - excepción), Rechazo de postulación por archivo corrupto o ilegible (flujo alterno - excepción), Intento de postulación cuando ya existe una postulación activa (flujo alterno - excepción), Bloqueo de postulación sin autenticación o rol indebido (EAC-03 - Seguridad), Modificación de requisitos de postulación sin tocar código ni redesplegar (EAC-02 - Mantenibilidad)
       Depende de: T-09
