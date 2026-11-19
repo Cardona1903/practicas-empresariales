@@ -2,6 +2,8 @@
 
 Entrada: `AGENTS.md`, `docs/arquitectura.md`, `spec.md`, `plan.md`, `tasks.md` y el código de `src/`.
 
+Genera un archivo de código con las pruebas ejecutables (por ejemplo `test/probar-<nombre-cu>.ts`) que instancie los servicios o componentes necesarios, ejecute cada uno de los escenarios definidos en `spec.md` e imprima por consola el resultado de cada prueba.
+
 Produce `validacion.md` con:
 
 ```text
@@ -19,7 +21,8 @@ Produce `validacion.md` con:
 ```
 
 Reglas:
-- Un resultado por cada escenario de `spec.md`, con evidencia concreta (salida de ejecución/compilación, archivo y número de línea).
+- Ejecutar el archivo de prueba generado y registrar su salida real de ejecución en `validacion.md`.
+- Un resultado por cada escenario de `spec.md`, con evidencia concreta (salida de ejecución del archivo de prueba, archivo y número de línea).
 - No dar un escenario por cumplido sin evidencia verificable.
 - Si algo no coincide o falla, informarlo claramente; no corregirlo en esta fase.
 - Al terminar, detenerse: la persona verifica la evidencia.

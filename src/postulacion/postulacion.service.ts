@@ -154,4 +154,16 @@ export class PostulacionService {
       order: { creadaEn: 'DESC' },
     });
   }
+
+  /**
+   * Consulta el listado general de peticiones de postulación con filtrado opcional por estado (CU-01).
+   * Entrega las postulaciones ordenadas cronológicamente en forma descendente por fecha de radicación.
+   */
+  async listarPostulaciones(estado?: EstadoPostulacion): Promise<Postulacion[]> {
+    const where = estado ? { estado } : {};
+    return this.postulacionRepo.find({
+      where,
+      order: { creadaEn: 'DESC' },
+    });
+  }
 }
