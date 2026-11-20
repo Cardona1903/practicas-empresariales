@@ -8,6 +8,7 @@ import { PostulacionModule } from './postulacion/postulacion.module';
 import { AsignacionTutorModule } from './asignacion-tutor/asignacion-tutor.module';
 import { HorasModule } from './horas/horas.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
+import { AdministracionModule } from './administracion/administracion.module';
 import { RegistroAuditoria } from './compartido/auditoria/entities/registro-auditoria.entity';
 import { RequisitoPrograma } from './compartido/configuracion/entities/requisito-programa.entity';
 import { EnlaceAcceso } from './compartido/auth/entities/enlace-acceso.entity';
@@ -60,6 +61,7 @@ import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
     AsignacionTutorModule,
     HorasModule,
     EvaluacionModule,
+    AdministracionModule,
   ],
 })
 export class AppModule {}
