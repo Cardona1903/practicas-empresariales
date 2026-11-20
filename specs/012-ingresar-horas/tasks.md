@@ -23,7 +23,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción)
       Depende de: T-02, T-03, T-04
 
-- [ ] T-06 Controlador HorasController con endpoint POST /horas protegido por SupervisorTokenGuard (ADR-004, EAC-03)
+- [x] T-06 Controlador HorasController con endpoint POST /horas protegido por SupervisorTokenGuard (ADR-004, EAC-03)
       Archivos: src/horas/horas.controller.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de ingreso de horas sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-02, T-05
