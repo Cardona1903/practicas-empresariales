@@ -8,7 +8,7 @@
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno)
       Depende de: T-01
 
-- [ ] T-03 Controlador ReportesController con endpoint GET /administracion/reportes y RBAC administrativo (ADR-004, EAC-03)
+- [x] T-03 Controlador ReportesController con endpoint GET /administracion/reportes y RBAC administrativo (ADR-004, EAC-03)
       Archivos: src/administracion/reportes.controller.ts
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno), Bloqueo de consulta de reportes sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02
