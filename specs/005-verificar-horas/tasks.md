@@ -1,4 +1,4 @@
-- [ ] T-01 Errores de dominio RegistroHorasNoEncontradoError y RegistroHorasYaVerificadoError (ADR-006)
+- [x] T-01 Errores de dominio RegistroHorasNoEncontradoError y RegistroHorasYaVerificadoError (ADR-006)
       Archivos: src/compartido/errores/dominio.error.ts
       Escenarios: Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción)
       Depende de: ninguna
