@@ -5,6 +5,7 @@ import { AuditoriaModule } from './compartido/auditoria/auditoria.module';
 import { ConfiguracionModule } from './compartido/configuracion/configuracion.module';
 import { AuthModule } from './compartido/auth/auth.module';
 import { PostulacionModule } from './postulacion/postulacion.module';
+import { AsignacionTutorModule } from './asignacion-tutor/asignacion-tutor.module';
 import { HorasModule } from './horas/horas.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
 import { RegistroAuditoria } from './compartido/auditoria/entities/registro-auditoria.entity';
@@ -12,6 +13,8 @@ import { RequisitoPrograma } from './compartido/configuracion/entities/requisito
 import { EnlaceAcceso } from './compartido/auth/entities/enlace-acceso.entity';
 import { Postulacion } from './postulacion/entities/postulacion.entity';
 import { Estudiante } from './postulacion/entities/estudiante.entity';
+import { Supervisor } from './asignacion-tutor/entities/supervisor.entity';
+import { AsignacionTutor } from './asignacion-tutor/entities/asignacion-tutor.entity';
 import { RegistroHoras } from './horas/entities/registro-horas.entity';
 import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
 
@@ -41,6 +44,8 @@ import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
           EnlaceAcceso,
           Postulacion,
           Estudiante,
+          Supervisor,
+          AsignacionTutor,
           RegistroHoras,
           Evaluacion,
         ],
@@ -52,6 +57,7 @@ import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
     ConfiguracionModule,
     AuthModule,
     PostulacionModule,
+    AsignacionTutorModule,
     HorasModule,
     EvaluacionModule,
   ],
