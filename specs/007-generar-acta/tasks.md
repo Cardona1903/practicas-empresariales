@@ -1,4 +1,4 @@
-- [ ] T-01 Errores de dominio para la expedición y validación de actas (ADR-006)
+- [x] T-01 Errores de dominio para la expedición y validación de actas (ADR-006)
       Archivos: src/compartido/errores/dominio.error.ts
       Escenarios: Intento de generación de acta cuando la postulación no está validada (excepción), Intento de generación de acta con horas verificadas insuficientes (excepción), Intento de generar acta cuando ya existe un acta previa generada para el estudiante (flujo alterno), Manejo de fallo técnico durante la generación o guardado del PDF (excepción / resiliencia)
       Depende de: ninguna
