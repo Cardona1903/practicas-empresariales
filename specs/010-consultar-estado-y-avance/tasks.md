@@ -1,4 +1,4 @@
-- [ ] T-01 DTO de salida AvanceHorasEstudianteDto para resumen y registros de horas del estudiante
+- [x] T-01 DTO de salida AvanceHorasEstudianteDto para resumen y registros de horas del estudiante
       Archivos: src/horas/dto/avance-horas-estudiante.dto.ts
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno)
       Depende de: ninguna
