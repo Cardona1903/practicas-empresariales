@@ -8,7 +8,7 @@
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción)
       Depende de: T-01
 
-- [ ] T-03 Endpoint PATCH /actas/:id/confirmar con RBAC administrativo en ActasController (ADR-004, EAC-03)
+- [x] T-03 Endpoint PATCH /actas/:id/confirmar con RBAC administrativo en ActasController (ADR-004, EAC-03)
       Archivos: src/actas/actas.controller.ts
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción), Bloqueo de confirmación de acta sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02
