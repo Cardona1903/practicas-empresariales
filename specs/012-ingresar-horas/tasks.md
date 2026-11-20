@@ -1,4 +1,4 @@
-- [ ] T-01 Entidad EnlaceAcceso para tokens temporales de supervisores externos (ADR-002, ADR-004, RN-02)
+- [x] T-01 Entidad EnlaceAcceso para tokens temporales de supervisores externos (ADR-002, ADR-004, RN-02)
       Archivos: src/compartido/auth/entities/enlace-acceso.entity.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad)
       Depende de: ninguna
