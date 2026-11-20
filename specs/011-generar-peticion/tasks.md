@@ -3,7 +3,7 @@
       Escenarios: Radicación exitosa de la petición del acta final con requisitos cumplidos (flujo básico), Rechazo de petición duplicada cuando ya existe una petición en curso o un acta generada (flujo alterno - excepción)
       Depende de: ninguna
 
-- [ ] T-02 Método solicitarActa en ActasService con validación de postulación, horas mínimas, duplicados y auditoría (ADR-001, ADR-003, ADR-005, ADR-006, ADR-007, RN-01, PA-04)
+- [x] T-02 Método solicitarActa en ActasService con validación de postulación, horas mínimas, duplicados y auditoría (ADR-001, ADR-003, ADR-005, ADR-006, ADR-007, RN-01, PA-04)
       Archivos: src/actas/actas.service.ts
       Escenarios: Radicación exitosa de la petición del acta final con requisitos cumplidos (flujo básico), Rechazo de petición del acta final cuando la postulación no está validada (excepción), Rechazo de petición del acta final cuando las horas verificadas son insuficientes (excepción), Rechazo de petición duplicada cuando ya existe una petición en curso o un acta generada (flujo alterno - excepción)
       Depende de: T-01

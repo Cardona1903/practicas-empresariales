@@ -49,6 +49,92 @@ export class ActasService {
   }
 
   /**
+   * Radica la petición formal del acta final de práctica por parte del estudiante (CU-11).
+   * - Verifica que no exista ya una petición en estado SOLICITADA ni un acta en estado GENERADA.
+   * - Verifica que la postulación esté en estado VALIDADA (ADR-003).
+   * - Verifica que las horas en estado VERIFICADA cumplan con el mínimo del programa académico (CU-05, ADR-007).
+   * - Registra la entidad Acta en estado SOLICITADA con rutaPdf = null, sin generar el PDF automáticamente (RN-01).
+   * - Registra el evento en la bitácora de auditoría con el documento del estudiante como actor (PA-04).
+   */
+  async solicitarActa(estudianteId: string): Promise<Acta> {
+    // 1. Verificar que no exista ya una petición activa (SOLICITADA) o un acta expedida (GENERADA)
+    const solicitudExistente = await this.actaRepo.findOne({
+      where: {
+        estudianteId,
+        estado: EstadoActa.SOLICITADA,
+      },
+    });
+
+    if (solicitudExistente) {
+      throw new ActaYaExisteError(
+        'El estudiante ya cuenta con una petición de acta final registrada o con un acta oficial generada',
+      );
+    }
+
+    const actaGeneradaExistente = await this.actaRepo.findOne({
+      where: {
+        estudianteId,
+        estado: EstadoActa.GENERADA,
+      },
+    });
+
+    if (actaGeneradaExistente) {
+      throw new ActaYaExisteError(
+        'El estudiante ya cuenta con una petición de acta final registrada o con un acta oficial generada',
+      );
+    }
+
+    // 2. Verificar que la postulación del estudiante exista y esté en estado VALIDADA (ADR-001, ADR-003)
+    const estaValidada = await this.postulacionService.estaValidada(estudianteId);
+    if (!estaValidada) {
+      throw new PostulacionNoValidadaError('la postulación aún no está validada');
+    }
+
+    const postulacion = await this.postulacionService.obtenerPorEstudiante(estudianteId);
+    if (!postulacion || postulacion.estado !== 'VALIDADA') {
+      throw new PostulacionNoValidadaError('la postulación aún no está validada');
+    }
+
+    // 3. Consultar requisitos vigentes del programa académico (ADR-007) y total de horas verificadas (CU-05)
+    const programaAcademico = postulacion.estudiante.programaAcademico;
+    const requisito = await this.configuracionService.obtenerRequisitosVigentes(programaAcademico);
+    const totalHoras = await this.horasService.totalHorasValidadas(estudianteId);
+
+    if (totalHoras < requisito.horasMinimas) {
+      throw new HorasInsuficientesError(
+        'El estudiante no cumple con las horas mínimas verificadas requeridas por su programa académico',
+      );
+    }
+
+    // 4. Crear y guardar el registro de Acta en estado SOLICITADA sin generar el archivo PDF (RN-01)
+    const peticionActa = this.actaRepo.create({
+      estudianteId,
+      totalHoras,
+      rutaPdf: null,
+      estado: EstadoActa.SOLICITADA,
+      detalleError: null,
+    });
+
+    const peticionGuardada = await this.actaRepo.save(peticionActa);
+
+    // 5. Registrar el evento de solicitud de acta en la bitácora de auditoría (PA-04)
+    await this.auditoriaService.registrarEvento(
+      'SOLICITUD_ACTA',
+      'EXITOSO',
+      estudianteId,
+      JSON.stringify({
+        actaId: peticionGuardada.id,
+        estudianteId,
+        programaAcademico,
+        totalHoras,
+        estado: EstadoActa.SOLICITADA,
+      }),
+    );
+
+    return peticionGuardada;
+  }
+
+  /**
    * Genera de forma síncrona y transaccional el acta final de práctica en PDF para un estudiante (CU-07).
    */
   async generarActa(estudianteId: string, actorId: string): Promise<Acta> {
