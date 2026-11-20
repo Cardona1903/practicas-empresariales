@@ -3,7 +3,7 @@
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción)
       Depende de: ninguna
 
-- [ ] T-02 Método confirmarActa en ActasService con validación de transición SOLICITADA -> CONFIRMADA y auditoría (ADR-001, RN-01, PA-04)
+- [x] T-02 Método confirmarActa en ActasService con validación de transición SOLICITADA -> CONFIRMADA y auditoría (ADR-001, RN-01, PA-04)
       Archivos: src/actas/actas.service.ts
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción)
       Depende de: T-01
