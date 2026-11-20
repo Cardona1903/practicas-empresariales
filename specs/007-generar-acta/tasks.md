@@ -33,7 +33,7 @@
       Escenarios: Generación exitosa del acta final en PDF con consolidación transaccional de horas (flujo básico), Bloqueo de generación de acta sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-06
 
-- [ ] T-08 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-08 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/007-generar-acta/validacion.md, test/probar-generar-acta.ts
       Escenarios: Generación exitosa del acta final en PDF con consolidación transaccional de horas (flujo básico), Intento de generación de acta cuando la postulación no está validada (excepción), Intento de generación de acta con horas verificadas insuficientes (excepción), Intento de generar acta cuando ya existe un acta previa generada para el estudiante (flujo alterno), Manejo de fallo técnico durante la generación o guardado del PDF (excepción / resiliencia), Eficiencia de desempeño en la expedición síncrona del acta bajo carga concurrente (EAC-01 - Desempeño), Bloqueo de generación de acta sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-07
