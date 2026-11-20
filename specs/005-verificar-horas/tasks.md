@@ -3,7 +3,7 @@
       Escenarios: Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción)
       Depende de: ninguna
 
-- [ ] T-02 DTO ConsultarHorasFiltroDto para filtrado opcional por estado y estudianteId
+- [x] T-02 DTO ConsultarHorasFiltroDto para filtrado opcional por estado y estudianteId
       Archivos: src/horas/dto/consultar-horas-filtro.dto.ts
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico)
       Depende de: ninguna
