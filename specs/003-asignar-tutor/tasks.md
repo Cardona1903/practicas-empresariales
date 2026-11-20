@@ -1,4 +1,4 @@
-- [ ] T-01 Entidades Supervisor y AsignacionTutor (ADR-002, Vista Lógica)
+- [x] T-01 Entidades Supervisor y AsignacionTutor (ADR-002, Vista Lógica)
       Archivos: src/asignacion-tutor/entities/supervisor.entity.ts, src/asignacion-tutor/entities/asignacion-tutor.entity.ts
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno)
       Depende de: ninguna
