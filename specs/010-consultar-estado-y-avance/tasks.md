@@ -8,7 +8,7 @@
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno), Aislamiento de datos para que un estudiante solo vea sus propias horas (EAC-03 - Seguridad)
       Depende de: T-01
 
-- [ ] T-03 Endpoint GET /horas/mi-avance con RBAC para ESTUDIANTE en HorasController (ADR-004, EAC-03)
+- [x] T-03 Endpoint GET /horas/mi-avance con RBAC para ESTUDIANTE en HorasController (ADR-004, EAC-03)
       Archivos: src/horas/horas.controller.ts
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno), Aislamiento de datos para que un estudiante solo vea sus propias horas (EAC-03 - Seguridad), Bloqueo de consulta de avance de horas sin autenticación o con rol distinto a estudiante (EAC-03 - Seguridad)
       Depende de: T-02
