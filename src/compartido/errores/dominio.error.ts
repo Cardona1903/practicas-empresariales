@@ -74,3 +74,27 @@ export class EvaluacionYaRegistradaError extends DominioError {
     super(mensaje, HttpStatus.CONFLICT);
   }
 }
+
+export class PostulacionNoValidadaError extends DominioError {
+  constructor(mensaje = 'la postulación aún no está validada') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
+
+export class HorasInsuficientesError extends DominioError {
+  constructor(mensaje = 'El estudiante no cumple con las horas mínimas requeridas por su programa académico') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
+
+export class ActaYaExisteError extends DominioError {
+  constructor(mensaje = 'Ya existe un acta oficial generada para este estudiante') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
+
+export class FalloGeneracionActaError extends DominioError {
+  constructor(mensaje = 'no se pudo generar el acta, reintentar manualmente') {
+    super(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
