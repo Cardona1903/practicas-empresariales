@@ -18,7 +18,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción)
       Depende de: ninguna
 
-- [ ] T-05 Servicio HorasService para registro de horas en estado REGISTRADA y consumo del enlace vía EnlaceAccesoService (ADR-001, ADR-004, RN-01)
+- [x] T-05 Servicio HorasService para registro de horas en estado REGISTRADA y consumo del enlace vía EnlaceAccesoService (ADR-001, ADR-004, RN-01)
       Archivos: src/horas/horas.service.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción)
       Depende de: T-02, T-03, T-04
