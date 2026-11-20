@@ -3,7 +3,7 @@
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-02 DTO AsignarTutorDto con validaciones de estudianteId, correoSupervisor y nombreSupervisor opcional
+- [x] T-02 DTO AsignarTutorDto con validaciones de estudianteId, correoSupervisor y nombreSupervisor opcional
       Archivos: src/asignacion-tutor/dto/asignar-tutor.dto.ts
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno), Rechazo por datos inválidos como correo con formato incorrecto o estudiante vacío (excepción)
       Depende de: ninguna
