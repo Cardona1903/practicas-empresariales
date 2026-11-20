@@ -13,7 +13,7 @@
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno), Bloqueo de consulta de reportes sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Integración modular en AdministracionModule y AppModule (ADR-001)
+- [x] T-04 Integración modular en AdministracionModule y AppModule (ADR-001)
       Archivos: src/administracion/administracion.module.ts, src/app.module.ts
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico)
       Depende de: T-03
