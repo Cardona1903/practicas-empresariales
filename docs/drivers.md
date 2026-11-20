@@ -20,7 +20,7 @@ Se listan 13 casos de uso agrupados por actor. Se marcan como primarios (máximo
 | CU-10 | Estudiante | Consultar el estado de la postulación y el avance de horas | No | Consulta de solo lectura sobre datos ya gestionados por otros casos de uso. | (sin especificar) |
 | CU-11 | Estudiante | Generar petición del acta final | No | Es un disparador simple (solicitud) que activa CU-07; en sí mismo no tiene complejidad. | (sin especificar) |
 | **CU-12** | Supervisor de práctica | Ingresar horas de práctica de los estudiantes | **Sí** | Alta frecuencia de uso: se repite semanalmente, por cientos de estudiantes, durante los 4 a 6 meses de cada práctica. | [specs/012-ingresar-horas](../specs/012-ingresar-horas/) |
-| **CU-13** | Supervisor de práctica | Evaluar el desempeño del estudiante en práctica | **Sí** | Atado a un atributo de calidad crítico: capacidad de interacción para un actor externo sin cuenta institucional (RN-02); condiciona el mecanismo de acceso. | (sin especificar) |
+| **CU-13** | Supervisor de práctica | Evaluar el desempeño del estudiante en práctica | **Sí** | Atado a un atributo de calidad crítico: capacidad de interacción para un actor externo sin cuenta institucional (RN-02); condiciona el mecanismo de acceso. | [specs/013-evaluar-desempeno](../specs/013-evaluar-desempeno/) |
 
 **Nota:** en el borrador inicial dos casos de uso mencionaban "certificado"; se ajustó la redacción a "acta" (CU-06, CU-07 y CU-11) para mantener consistencia con el alcance definido en `vision.md`, que habla de "acta de finalización".
 

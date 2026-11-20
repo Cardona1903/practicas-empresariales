@@ -69,6 +69,12 @@ export class RegistroHorasYaVerificadoError extends DominioError {
   }
 }
 
+export class EvaluacionYaRegistradaError extends DominioError {
+  constructor(mensaje = 'El estudiante ya tiene una evaluación de desempeño registrada') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
+
 export class PostulacionNoValidadaError extends DominioError {
   constructor(mensaje = 'la postulación aún no está validada') {
     super(mensaje, HttpStatus.CONFLICT);
@@ -92,4 +98,3 @@ export class FalloGeneracionActaError extends DominioError {
     super(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
-
