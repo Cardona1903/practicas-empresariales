@@ -6,7 +6,7 @@ Aceptado
 ## Contexto
 La restricción **RN-01** ("Exclusión de automatizaciones en flujos de trabajo"), impuesta por la Coordinación Administrativa de la Facultad, exige mantener "validación humana directa para la aprobación de documentos antes de la generación del acta final".
 
-El caso de uso primario **CU-02** (Revisar y validar la postulación del estudiante) es el filtro de entrada de todo el proceso; su justificación en el taller de drivers señala que "los requisitos de validación varían por programa académico y aún no están estandarizados".
+El caso de uso primario **CU-02** (Revisar y validar la postulación del estudiante) señala que "los requisitos de validación varían por programa académico y aún no están estandarizados".
 
 **Drivers cubiertos:** RN-01; CU-02.
 

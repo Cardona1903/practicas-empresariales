@@ -1,20 +1,41 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { EnlaceAccesoSupervisor } from './enlace-acceso.entity';
-import { SsoAuthGuard } from './sso.guard';
-import { SupervisorTokenGuard } from './supervisor-token.guard';
-import { RolesGuard } from './roles.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuditoriaModule } from '../auditoria/auditoria.module';
+import { SsoAuthGuard } from './guards/sso-auth.guard';
+import { RolesGuard } from './guards/roles.guard';
+import { SupervisorTokenGuard } from './guards/supervisor-token.guard';
+import { EnlaceAcceso } from './entities/enlace-acceso.entity';
+import { EnlaceAccesoService } from './enlace-acceso.service';
 
-// ADR-004: agrupa los dos mecanismos de acceso (SSO + enlace de un solo
-// uso) y el control de acceso por rol que exige EAC-03. Otros modulos
-// importan AuthModule para poder usar estos guards en sus controladores.
+/**
+ * Módulo de Autenticación y Autorización (ADR-004, EAC-03, RN-02).
+ * Provee verificación de identidad vía SSO institucional (JWT), RBAC
+ * y enlaces temporales de un solo uso para supervisores externos.
+ */
 @Module({
   imports: [
-    TypeOrmModule.forFeature([EnlaceAccesoSupervisor]),
-    JwtModule.register({}),
+    ConfigModule,
+    AuditoriaModule,
+    TypeOrmModule.forFeature([EnlaceAcceso]),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('SSO_JWT_SECRET') || 'cambiar_este_secreto',
+        signOptions: { expiresIn: '8h' },
+      }),
+    }),
   ],
-  providers: [SsoAuthGuard, SupervisorTokenGuard, RolesGuard],
-  exports: [SsoAuthGuard, SupervisorTokenGuard, RolesGuard, TypeOrmModule],
+  providers: [SsoAuthGuard, RolesGuard, EnlaceAccesoService, SupervisorTokenGuard],
+  exports: [
+    SsoAuthGuard,
+    RolesGuard,
+    EnlaceAccesoService,
+    SupervisorTokenGuard,
+    JwtModule,
+    AuditoriaModule,
+  ],
 })
 export class AuthModule {}

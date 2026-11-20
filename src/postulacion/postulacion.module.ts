@@ -1,16 +1,27 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Postulacion } from './postulacion.entity';
-import { PostulacionService } from './postulacion.service';
+import { Postulacion } from './entities/postulacion.entity';
+import { Estudiante } from './entities/estudiante.entity';
 import { PostulacionController } from './postulacion.controller';
+import { PostulacionService } from './postulacion.service';
 import { ConfiguracionModule } from '../compartido/configuracion/configuracion.module';
 import { AuthModule } from '../compartido/auth/auth.module';
+import { AuditoriaModule } from '../compartido/auditoria/auditoria.module';
 
+/**
+ * Módulo de Postulación (ADR-001, Vista de Desarrollo).
+ * Encapsula la gestión de postulaciones y exporta PostulacionService.
+ * Respeta la modularidad estricta sin exponer repositorios a otros módulos.
+ */
 @Module({
-  imports: [TypeOrmModule.forFeature([Postulacion]), ConfiguracionModule, AuthModule],
-  providers: [PostulacionService],
+  imports: [
+    TypeOrmModule.forFeature([Postulacion, Estudiante]),
+    ConfiguracionModule,
+    AuthModule,
+    AuditoriaModule,
+  ],
   controllers: [PostulacionController],
-  // Exportado para que actas.module.ts lo use (ADR-005).
+  providers: [PostulacionService],
   exports: [PostulacionService],
 })
 export class PostulacionModule {}

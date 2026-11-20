@@ -1,37 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThanOrEqual, Repository } from 'typeorm';
-import { RequisitoPrograma } from './configuracion.entity';
-import { DominioError } from '../errores/dominio-error';
+import { Repository } from 'typeorm';
+import { RequisitoPrograma } from './entities/requisito-programa.entity';
+import { DominioError } from '../errores/dominio.error';
 
+/**
+ * Servicio de Configuración (ADR-007, EAC-02).
+ * Consulta y administra los requisitos y horas parametrizadas por programa académico.
+ * Exportado para consumo de los módulos de negocio sin exponer el Repository.
+ */
 @Injectable()
 export class ConfiguracionService {
+  private readonly logger = new Logger(ConfiguracionService.name);
+
   constructor(
     @InjectRepository(RequisitoPrograma)
-    private readonly requisitos: Repository<RequisitoPrograma>,
+    private readonly requisitoRepo: Repository<RequisitoPrograma>,
   ) {}
 
-  // ADR-007: PostulacionService llama esto en vez de tener las reglas
-  // de validacion escritas en su propio codigo (CU-09).
-  async obtenerVigente(programaAcademico: string): Promise<RequisitoPrograma> {
-    const requisito = await this.requisitos.findOne({
-      where: { programaAcademico, vigenteDesde: LessThanOrEqual(new Date()) },
-      order: { vigenteDesde: 'DESC' },
+  /**
+   * Obtiene la lista de documentos y horas mínimas vigentes para un programa académico.
+   */
+  async obtenerRequisitosVigentes(programaAcademico: string): Promise<RequisitoPrograma> {
+    const requisito = await this.requisitoRepo.findOne({
+      where: { programaAcademico },
     });
+
     if (!requisito) {
+      this.logger.warn(`No se encontraron requisitos vigentes configurados para el programa: ${programaAcademico}`);
       throw new DominioError(
-        `No hay requisitos configurados para el programa "${programaAcademico}".`,
-        'CONFIGURACION_FALTANTE',
+        `No existen requisitos de postulación configurados para el programa académico: ${programaAcademico}`,
       );
     }
+
     return requisito;
   }
 
-  crear(datos: Partial<RequisitoPrograma>) {
-    return this.requisitos.save(this.requisitos.create(datos));
-  }
+  /**
+   * Registra o actualiza requisitos para un programa académico en base de datos.
+   * Permite modificar requisitos sin tocar código ni redesplegar (EAC-02).
+   */
+  async guardarRequisitos(
+    programaAcademico: string,
+    horasMinimas: number,
+    documentosRequeridos: string[],
+  ): Promise<RequisitoPrograma> {
+    let requisito = await this.requisitoRepo.findOne({ where: { programaAcademico } });
 
-  listar() {
-    return this.requisitos.find();
+    if (!requisito) {
+      requisito = this.requisitoRepo.create({
+        programaAcademico,
+        horasMinimas,
+        documentosRequeridos,
+      });
+    } else {
+      requisito.horasMinimas = horasMinimas;
+      requisito.documentosRequeridos = documentosRequeridos;
+    }
+
+    const guardado = await this.requisitoRepo.save(requisito);
+    this.logger.log(`Requisitos actualizados para el programa [${programaAcademico}]: ${documentosRequeridos.join(', ')}`);
+    return guardado;
   }
 }

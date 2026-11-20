@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RequisitoPrograma } from './configuracion.entity';
+import { RequisitoPrograma } from './entities/requisito-programa.entity';
 import { ConfiguracionService } from './configuracion.service';
-import { ConfiguracionController } from './configuracion.controller';
-import { AuthModule } from '../auth/auth.module';
 
+/**
+ * Módulo de Configuración (ADR-001, ADR-007, EAC-02).
+ * Encapsula la gestión de parámetros por programa académico y exporta ConfiguracionService.
+ */
 @Module({
-  imports: [TypeOrmModule.forFeature([RequisitoPrograma]), AuthModule],
+  imports: [TypeOrmModule.forFeature([RequisitoPrograma])],
   providers: [ConfiguracionService],
-  controllers: [ConfiguracionController],
-  // Exportado para que postulacion.module.ts lo use (ADR-001: solo via
-  // servicio exportado, nunca importando el Repository directamente).
   exports: [ConfiguracionService],
 })
 export class ConfiguracionModule {}

@@ -1,30 +1,93 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Param,
+  Query,
+  Body,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { HorasService } from './horas.service';
-import { SupervisorTokenGuard } from '../compartido/auth/supervisor-token.guard';
-import { SsoAuthGuard } from '../compartido/auth/sso.guard';
-import { RolesGuard } from '../compartido/auth/roles.guard';
-import { Roles } from '../compartido/auth/roles.decorator';
+import { RegistrarHorasDto } from './dto/registrar-horas.dto';
+import { ConsultarHorasFiltroDto } from './dto/consultar-horas-filtro.dto';
+import { SupervisorTokenGuard } from '../compartido/auth/guards/supervisor-token.guard';
+import { SsoAuthGuard } from '../compartido/auth/guards/sso-auth.guard';
+import { RolesGuard } from '../compartido/auth/guards/roles.guard';
+import { Roles } from '../compartido/auth/decorators/roles.decorator';
+import {
+  UsuarioActual,
+  UsuarioAutenticado,
+} from '../compartido/auth/decorators/usuario-actual.decorator';
+import {
+  EnlaceActual,
+  EnlaceSupervisorAutenticado,
+} from '../compartido/auth/decorators/enlace-actual.decorator';
+import { RegistroHoras } from './entities/registro-horas.entity';
 
+/**
+ * Controlador HTTP del Módulo Horas (CU-12, CU-05, ADR-004, RN-02, EAC-03).
+ * - POST /horas: protegido con SupervisorTokenGuard para el supervisor externo (CU-12).
+ * - GET /horas y PATCH /horas/:id: protegidos con SsoAuthGuard + RolesGuard para ADMINISTRATIVO (CU-05).
+ */
 @Controller('horas')
 export class HorasController {
   constructor(private readonly horasService: HorasService) {}
 
-  // CU-12: supervisor externo, sin cuenta institucional (RN-02).
+  /**
+   * POST /horas
+   * Registra una entrada de horas de práctica del estudiante usando el enlace-token del supervisor (CU-12).
+   * Responde HTTP 201 Created con el RegistroHoras en estado REGISTRADA (RN-01).
+   */
   @Post()
   @UseGuards(SupervisorTokenGuard)
-  registrar(@Req() req: any, @Body() body: { fecha: string; horas: number }) {
-    return this.horasService.registrar({
-      estudianteId: req.user.estudianteId,
-      supervisorEmail: req.user.id,
-      ...body,
-    });
+  @HttpCode(HttpStatus.CREATED)
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async registrarHoras(
+    @EnlaceActual() enlace: EnlaceSupervisorAutenticado,
+    @Body() dto: RegistrarHorasDto,
+  ): Promise<RegistroHoras> {
+    return this.horasService.registrarHoras(
+      enlace.estudianteId,
+      enlace.supervisorId,
+      enlace.token,
+      dto,
+    );
   }
 
-  // CU-05: administrativo autenticado por SSO.
-  @Post(':estudianteId/verificar')
+  /**
+   * GET /horas
+   * Consulta los registros de horas con filtros opcionales por estado y estudianteId (CU-05).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-004, EAC-03).
+   */
+  @Get()
   @UseGuards(SsoAuthGuard, RolesGuard)
-  @Roles('administrativo')
-  verificar(@Req() req: any, @Param('estudianteId') estudianteId: string) {
-    return this.horasService.verificar(estudianteId, req.user.id);
+  @Roles('ADMINISTRATIVO')
+  @HttpCode(HttpStatus.OK)
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async listarHoras(
+    @Query() filtro: ConsultarHorasFiltroDto,
+  ): Promise<RegistroHoras[]> {
+    return this.horasService.listarRegistrosHoras(filtro);
+  }
+
+  /**
+   * PATCH /horas/:id
+   * Verifica manualmente un registro de horas pendiente pasándolo a estado VERIFICADA (CU-05, RN-01).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-004, EAC-03, PA-04).
+   */
+  @Patch(':id')
+  @UseGuards(SsoAuthGuard, RolesGuard)
+  @Roles('ADMINISTRATIVO')
+  @HttpCode(HttpStatus.OK)
+  async verificarHoras(
+    @Param('id') id: string,
+    @UsuarioActual() usuario: UsuarioAutenticado,
+  ): Promise<RegistroHoras> {
+    return this.horasService.verificarRegistroHoras(id, usuario.documento);
   }
 }
