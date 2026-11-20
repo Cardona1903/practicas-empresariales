@@ -33,7 +33,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno)
       Depende de: T-06
 
-- [ ] T-08 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-08 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/012-ingresar-horas/validacion.md, test/probar-ingresar-horas.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de ingreso de horas sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-07
