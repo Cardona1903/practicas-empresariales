@@ -13,7 +13,7 @@
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno), Aislamiento de datos para que un estudiante solo vea sus propias horas (EAC-03 - Seguridad), Bloqueo de consulta de avance de horas sin autenticación o con rol distinto a estudiante (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/010-consultar-estado-y-avance/validacion.md, test/probar-consultar-estado-y-avance.ts
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno), Aislamiento de datos para que un estudiante solo vea sus propias horas (EAC-03 - Seguridad), Bloqueo de consulta de avance de horas sin autenticación o con rol distinto a estudiante (EAC-03 - Seguridad)
       Depende de: T-03
