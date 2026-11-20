@@ -20,13 +20,28 @@ import {
 } from '../compartido/auth/decorators/usuario-actual.decorator';
 
 /**
- * Controlador HTTP del Módulo Actas (CU-07).
- * Expone el endpoint POST /actas protegido por SSO institucional y RBAC administrativo (ADR-004, EAC-03).
+ * Controlador HTTP del Módulo Actas (CU-07, CU-11).
+ * Expone los endpoints protegidos por SSO institucional y RBAC (ADR-004, EAC-03).
  */
 @Controller('actas')
 @UseGuards(SsoAuthGuard, RolesGuard)
 export class ActasController {
   constructor(private readonly actasService: ActasService) {}
+
+  /**
+   * POST /actas/solicitar
+   * Radica la petición formal del acta final de práctica por parte del estudiante (CU-11, RN-01).
+   * Requiere rol 'ESTUDIANTE' (ADR-004, EAC-03).
+   * Responde HTTP 201 Created con los datos del registro Acta en estado SOLICITADA.
+   */
+  @Post('solicitar')
+  @Roles('ESTUDIANTE')
+  @HttpCode(HttpStatus.CREATED)
+  async solicitarActa(
+    @UsuarioActual() usuario: UsuarioAutenticado,
+  ): Promise<Acta> {
+    return this.actasService.solicitarActa(usuario.documento);
+  }
 
   /**
    * POST /actas
