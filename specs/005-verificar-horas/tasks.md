@@ -8,7 +8,7 @@
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico)
       Depende de: ninguna
 
-- [ ] T-03 Consulta, verificación manual con auditoría y consolidación totalHorasValidadas en HorasService (ADR-001, ADR-005, RN-01, PA-04)
+- [x] T-03 Consulta, verificación manual con auditoría y consolidación totalHorasValidadas en HorasService (ADR-001, ADR-005, RN-01, PA-04)
       Archivos: src/horas/horas.service.ts, src/horas/horas.module.ts
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico), Verificar manualmente un registro de horas pendiente y consolidar total verificado (flujo básico), Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción)
       Depende de: T-01, T-02
