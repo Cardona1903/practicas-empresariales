@@ -5,6 +5,7 @@ import { RegistroHoras } from './entities/registro-horas.entity';
 import { EstadoHoras } from './enums/estado-horas.enum';
 import { RegistrarHorasDto } from './dto/registrar-horas.dto';
 import { ConsultarHorasFiltroDto } from './dto/consultar-horas-filtro.dto';
+import { AvanceHorasEstudianteDto } from './dto/avance-horas-estudiante.dto';
 import { EnlaceAccesoService } from '../compartido/auth/enlace-acceso.service';
 import { AuditoriaService } from '../compartido/auditoria/auditoria.service';
 import {
@@ -140,5 +141,37 @@ export class HorasService {
     });
 
     return registrosVerificados.reduce((acum, reg) => acum + reg.horas, 0);
+  }
+
+  /**
+   * Consulta el avance de horas de práctica exclusivamente para el estudiante autenticado (CU-10).
+   * Garantiza aislamiento de datos filtrando únicamente por su documento (Vista Lógica, EAC-03).
+   */
+  async consultarAvanceEstudiante(
+    estudianteId: string,
+  ): Promise<AvanceHorasEstudianteDto> {
+    const registros = await this.registroHorasRepo.find({
+      where: { estudianteId },
+      order: { creadoEn: 'DESC' },
+    });
+
+    let totalHorasVerificadas = 0;
+    let totalHorasRegistradas = 0;
+
+    for (const reg of registros) {
+      if (reg.estado === EstadoHoras.VERIFICADA) {
+        totalHorasVerificadas += reg.horas;
+      } else {
+        totalHorasRegistradas += reg.horas;
+      }
+    }
+
+    return {
+      estudianteId,
+      totalHorasVerificadas,
+      totalHorasRegistradas,
+      totalHorasReportadas: totalHorasVerificadas + totalHorasRegistradas,
+      registros,
+    };
   }
 }

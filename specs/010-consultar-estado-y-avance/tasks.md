@@ -3,7 +3,7 @@
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-02 Método consultarAvanceEstudiante en HorasService con aislamiento por estudianteId (ADR-001, Vista Lógica)
+- [x] T-02 Método consultarAvanceEstudiante en HorasService con aislamiento por estudianteId (ADR-001, Vista Lógica)
       Archivos: src/horas/horas.service.ts
       Escenarios: Consulta exitosa del estado de la postulación y del avance de horas del propio estudiante (flujo básico), Consulta de avance cuando el estudiante aún no tiene horas registradas (flujo alterno), Aislamiento de datos para que un estudiante solo vea sus propias horas (EAC-03 - Seguridad)
       Depende de: T-01
