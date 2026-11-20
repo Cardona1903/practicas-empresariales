@@ -1,4 +1,4 @@
-- [ ] T-01 Estado CONFIRMADA en EstadoActa y errores de dominio ActaNoEncontradaError y TransicionEstadoActaInvalidaError (ADR-005, ADR-006)
+- [x] T-01 Estado CONFIRMADA en EstadoActa y errores de dominio ActaNoEncontradaError y TransicionEstadoActaInvalidaError (ADR-005, ADR-006)
       Archivos: src/actas/enums/estado-acta.enum.ts, src/compartido/errores/dominio.error.ts
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción)
       Depende de: ninguna
