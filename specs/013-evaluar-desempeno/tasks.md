@@ -3,7 +3,7 @@
       Escenarios: Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción)
       Depende de: ninguna
 
-- [ ] T-02 Entidad Evaluacion (ADR-002, Vista Lógica)
+- [x] T-02 Entidad Evaluacion (ADR-002, Vista Lógica)
       Archivos: src/evaluacion/entities/evaluacion.entity.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno)
       Depende de: ninguna
