@@ -1,6 +1,8 @@
 import {
   Controller,
   Post,
+  Patch,
+  Param,
   Body,
   UseGuards,
   HttpCode,
@@ -41,6 +43,22 @@ export class ActasController {
     @UsuarioActual() usuario: UsuarioAutenticado,
   ): Promise<Acta> {
     return this.actasService.solicitarActa(usuario.documento);
+  }
+
+  /**
+   * PATCH /actas/:id/confirmar
+   * Da confirmación administrativa manual a una petición de acta en estado SOLICITADA
+   * pasándola a estado CONFIRMADA sin generar el PDF automáticamente (CU-06, RN-01).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-004, EAC-03, PA-04).
+   */
+  @Patch(':id/confirmar')
+  @Roles('ADMINISTRATIVO')
+  @HttpCode(HttpStatus.OK)
+  async confirmarActa(
+    @Param('id') id: string,
+    @UsuarioActual() usuario: UsuarioAutenticado,
+  ): Promise<Acta> {
+    return this.actasService.confirmarActa(id, usuario.documento);
   }
 
   /**

@@ -98,3 +98,15 @@ export class FalloGeneracionActaError extends DominioError {
     super(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
+
+export class ActaNoEncontradaError extends DominioError {
+  constructor(mensaje = 'La petición de acta solicitada no existe') {
+    super(mensaje, HttpStatus.NOT_FOUND);
+  }
+}
+
+export class TransicionEstadoActaInvalidaError extends DominioError {
+  constructor(mensaje = 'El acta solo puede confirmarse cuando está en estado SOLICITADA') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}

@@ -11,10 +11,12 @@ import { HorasService } from '../horas/horas.service';
 import { ConfiguracionService } from '../compartido/configuracion/configuracion.service';
 import { AuditoriaService } from '../compartido/auditoria/auditoria.service';
 import {
+  ActaNoEncontradaError,
   ActaYaExisteError,
   FalloGeneracionActaError,
   HorasInsuficientesError,
   PostulacionNoValidadaError,
+  TransicionEstadoActaInvalidaError,
 } from '../compartido/errores/dominio.error';
 
 /**
@@ -132,6 +134,49 @@ export class ActasService {
     );
 
     return peticionGuardada;
+  }
+
+  /**
+   * Confirma manualmente una petición de acta final cambiando su estado
+   * de SOLICITADA a CONFIRMADA y registrando la aprobación en auditoría (CU-06, RN-01, PA-04).
+   * No genera el archivo PDF automáticamente (eso corresponde a CU-07).
+   */
+  async confirmarActa(id: string, actorId: string): Promise<Acta> {
+    const acta = await this.actaRepo.findOne({
+      where: { id },
+    });
+
+    if (!acta) {
+      throw new ActaNoEncontradaError(
+        `No existe ninguna petición de acta con el identificador "${id}"`,
+      );
+    }
+
+    if (acta.estado !== EstadoActa.SOLICITADA) {
+      throw new TransicionEstadoActaInvalidaError(
+        `El acta "${id}" solo puede confirmarse cuando está en estado SOLICITADA (estado actual: ${acta.estado})`,
+      );
+    }
+
+    const estadoAnterior = acta.estado;
+    acta.estado = EstadoActa.CONFIRMADA;
+
+    const confirmada = await this.actaRepo.save(acta);
+
+    await this.auditoriaService.registrarEvento(
+      'CONFIRMACION_ACTA',
+      'EXITOSO',
+      actorId,
+      JSON.stringify({
+        actaId: confirmada.id,
+        estudianteId: confirmada.estudianteId,
+        totalHoras: confirmada.totalHoras,
+        estadoAnterior,
+        nuevoEstado: confirmada.estado,
+      }),
+    );
+
+    return confirmada;
   }
 
   /**
