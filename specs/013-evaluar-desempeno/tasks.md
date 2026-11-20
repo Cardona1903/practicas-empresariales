@@ -1,4 +1,4 @@
-- [ ] T-01 Error de dominio EvaluacionYaRegistradaError (ADR-006)
+- [x] T-01 Error de dominio EvaluacionYaRegistradaError (ADR-006)
       Archivos: src/compartido/errores/dominio.error.ts
       Escenarios: Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción)
       Depende de: ninguna
