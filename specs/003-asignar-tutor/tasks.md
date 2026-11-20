@@ -8,7 +8,7 @@
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno), Rechazo por datos inválidos como correo con formato incorrecto o estudiante vacío (excepción)
       Depende de: ninguna
 
-- [ ] T-03 Servicio AsignacionTutorService para asignación, actualización de relación estudiante-tutor y auditoría (ADR-001, PA-04)
+- [x] T-03 Servicio AsignacionTutorService para asignación, actualización de relación estudiante-tutor y auditoría (ADR-001, PA-04)
       Archivos: src/asignacion-tutor/asignacion-tutor.service.ts
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno)
       Depende de: T-01, T-02
