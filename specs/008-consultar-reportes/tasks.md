@@ -18,7 +18,7 @@
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico)
       Depende de: T-03
 
-- [ ] T-05 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-05 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/008-consultar-reportes/validacion.md, test/probar-consultar-reportes.ts
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno), Bloqueo de consulta de reportes sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-04
