@@ -6,12 +6,14 @@ import { ConfiguracionModule } from './compartido/configuracion/configuracion.mo
 import { AuthModule } from './compartido/auth/auth.module';
 import { PostulacionModule } from './postulacion/postulacion.module';
 import { HorasModule } from './horas/horas.module';
+import { ActasModule } from './actas/actas.module';
 import { RegistroAuditoria } from './compartido/auditoria/entities/registro-auditoria.entity';
 import { RequisitoPrograma } from './compartido/configuracion/entities/requisito-programa.entity';
 import { EnlaceAcceso } from './compartido/auth/entities/enlace-acceso.entity';
 import { Postulacion } from './postulacion/entities/postulacion.entity';
 import { Estudiante } from './postulacion/entities/estudiante.entity';
 import { RegistroHoras } from './horas/entities/registro-horas.entity';
+import { Acta } from './actas/entities/acta.entity';
 
 /**
  * Módulo raíz de la aplicación (ADR-001, ADR-002).
@@ -40,6 +42,7 @@ import { RegistroHoras } from './horas/entities/registro-horas.entity';
           Postulacion,
           Estudiante,
           RegistroHoras,
+          Acta,
         ],
         synchronize: false,
         autoLoadEntities: true,
@@ -50,6 +53,7 @@ import { RegistroHoras } from './horas/entities/registro-horas.entity';
     AuthModule,
     PostulacionModule,
     HorasModule,
+    ActasModule,
   ],
 })
 export class AppModule {}
