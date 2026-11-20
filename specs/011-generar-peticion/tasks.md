@@ -13,7 +13,7 @@
       Escenarios: Radicación exitosa de la petición del acta final con requisitos cumplidos (flujo básico), Bloqueo de petición del acta final sin autenticación o con rol distinto a estudiante (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/011-generar-peticion/validacion.md, test/probar-generar-peticion.ts
       Escenarios: Radicación exitosa de la petición del acta final con requisitos cumplidos (flujo básico), Rechazo de petición del acta final cuando la postulación no está validada (excepción), Rechazo de petición del acta final cuando las horas verificadas son insuficientes (excepción), Rechazo de petición duplicada cuando ya existe una petición en curso o un acta generada (flujo alterno - excepción), Bloqueo de petición del acta final sin autenticación o con rol distinto a estudiante (EAC-03 - Seguridad)
       Depende de: T-03
