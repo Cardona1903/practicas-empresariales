@@ -8,7 +8,7 @@
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-03 DTO RegistrarEvaluacionDto con validación de calificación entre 0.0 y 5.0 y comentarios opcionales
+- [x] T-03 DTO RegistrarEvaluacionDto con validación de calificación entre 0.0 y 5.0 y comentarios opcionales
       Archivos: src/evaluacion/dto/registrar-evaluacion.dto.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción)
       Depende de: ninguna
