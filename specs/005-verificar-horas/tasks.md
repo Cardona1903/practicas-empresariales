@@ -18,7 +18,7 @@
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico), Verificar manualmente un registro de horas pendiente y consolidar total verificado (flujo básico), Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción), Bloqueo de consulta o verificación de horas sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-03
 
-- [ ] T-05 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-05 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/005-verificar-horas/validacion.md, test/probar-verificar-horas.ts
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico), Verificar manualmente un registro de horas pendiente y consolidar total verificado (flujo básico), Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción), Bloqueo de consulta o verificación de horas sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-04
