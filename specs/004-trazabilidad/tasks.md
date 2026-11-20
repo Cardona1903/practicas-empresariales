@@ -3,7 +3,7 @@
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico)
       Depende de: ninguna
 
-- [ ] T-02 Consulta de datos y trazabilidad del estudiante postulante en PostulacionService (ADR-001, ADR-006)
+- [x] T-02 Consulta de datos y trazabilidad del estudiante postulante en PostulacionService (ADR-001, ADR-006)
       Archivos: src/postulacion/postulacion.service.ts
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico), Consulta de un postulante inexistente por documento (flujo alterno)
       Depende de: T-01
