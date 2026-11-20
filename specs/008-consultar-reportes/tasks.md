@@ -1,4 +1,4 @@
-- [ ] T-01 DTO de salida ReportePracticasDto para indicadores y avance de prácticas
+- [x] T-01 DTO de salida ReportePracticasDto para indicadores y avance de prácticas
       Archivos: src/administracion/dto/reporte-practicas.dto.ts
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno)
       Depende de: ninguna
