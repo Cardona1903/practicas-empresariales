@@ -18,7 +18,7 @@
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción)
       Depende de: T-01, T-02, T-03
 
-- [ ] T-05 Controlador EvaluacionController con endpoint POST /evaluaciones protegido por SupervisorTokenGuard (ADR-004, EAC-03)
+- [x] T-05 Controlador EvaluacionController con endpoint POST /evaluaciones protegido por SupervisorTokenGuard (ADR-004, EAC-03)
       Archivos: src/evaluacion/evaluacion.controller.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción), Bloqueo de evaluación con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de evaluación sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-04
