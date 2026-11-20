@@ -28,7 +28,7 @@
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno)
       Depende de: T-05
 
-- [ ] T-07 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-07 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/013-evaluar-desempeno/validacion.md, test/probar-evaluar-desempeno.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción), Bloqueo de evaluación con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de evaluación sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-06
