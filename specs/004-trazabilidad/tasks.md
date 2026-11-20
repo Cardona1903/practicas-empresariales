@@ -13,7 +13,7 @@
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico), Consulta de un postulante inexistente por documento (flujo alterno), Bloqueo de consulta de datos y trazabilidad sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Validación y verificación de escenarios en validacion.md
+- [x] T-04 Validación y verificación de escenarios en validacion.md
       Archivos: specs/004-trazabilidad/validacion.md, test/probar-trazabilidad.ts
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico), Consulta de un postulante inexistente por documento (flujo alterno), Bloqueo de consulta de datos y trazabilidad sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-03
