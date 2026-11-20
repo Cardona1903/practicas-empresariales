@@ -46,4 +46,31 @@ export class AuditoriaService {
   ): Promise<RegistroAuditoria> {
     return this.registrarEvento(evento, 'DENEGADO', actorId, detalles);
   }
+
+  /**
+   * Consulta los eventos de auditoría asociados a un trámite o estudiante postulante (CU-04, PA-04, ADR-001).
+   * Permite a otros módulos obtener la trazabilidad sin acceder directamente al repositorio de RegistroAuditoria.
+   */
+  async consultarPorTramite(
+    postulacionId: string,
+    documentoEstudiante: string,
+  ): Promise<Array<{ evento: string; resultado: string; fecha: Date }>> {
+    const registros = await this.auditoriaRepo.find({
+      order: { fecha: 'ASC' },
+    });
+
+    return registros
+      .filter(
+        (r) =>
+          r.actorId === documentoEstudiante ||
+          (r.detalles &&
+            (r.detalles.includes(postulacionId) ||
+              r.detalles.includes(documentoEstudiante))),
+      )
+      .map((r) => ({
+        evento: r.evento,
+        resultado: r.resultado,
+        fecha: r.fecha,
+      }));
+  }
 }

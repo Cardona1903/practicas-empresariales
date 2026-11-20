@@ -157,10 +157,15 @@ export class PostulacionService {
 
   /**
    * Servicio exportado: consulta si una postulación ya fue validada (usado por Actas/CU-07).
+   * Admite tanto el documento del estudiante (estudianteId) como el UUID de la postulación.
    */
-  async estaValidada(postulacionId: string): Promise<boolean> {
+  async estaValidada(identificador: string): Promise<boolean> {
+    const porEstudiante = await this.obtenerPorEstudiante(identificador);
+    if (porEstudiante) {
+      return porEstudiante.estado === EstadoPostulacion.VALIDADA;
+    }
     const postulacion = await this.postulacionRepo.findOne({
-      where: { id: postulacionId },
+      where: { id: identificador },
     });
     return postulacion?.estado === EstadoPostulacion.VALIDADA;
   }
@@ -259,5 +264,56 @@ export class PostulacionService {
     );
 
     return actualizada;
+  }
+
+  /**
+   * Consulta los datos detallados de un estudiante postulante y la trazabilidad de su postulación (CU-04, PA-04, ADR-001).
+   * Obtiene la postulación y su estudiante asociado, y consulta los eventos de auditoría exclusivamente vía AuditoriaService.
+   */
+  async obtenerTrazabilidadPorEstudiante(documento: string): Promise<{
+    estudiante: { documento: string; programaAcademico: string };
+    postulacion: {
+      id: string;
+      estado: EstadoPostulacion;
+      documentosAdjuntos: string[];
+      motivoRechazo: string | null;
+      creadaEn: Date;
+      actualizadaEn: Date;
+    };
+    trazabilidad: Array<{ evento: string; resultado: string; fecha: Date }>;
+  }> {
+    const postulacion = await this.obtenerPorEstudiante(documento);
+
+    if (!postulacion || !postulacion.estudiante) {
+      this.logger.warn(
+        `Consulta de trazabilidad fallida: no se encontró postulante con documento [${documento}]`,
+      );
+      throw new PostulacionNoEncontradaError(
+        `El postulante con documento "${documento}" no fue encontrado`,
+      );
+    }
+
+    const trazabilidad = this.auditoriaService
+      ? await this.auditoriaService.consultarPorTramite(
+          postulacion.id,
+          documento,
+        )
+      : [];
+
+    return {
+      estudiante: {
+        documento: postulacion.estudiante.documento,
+        programaAcademico: postulacion.estudiante.programaAcademico,
+      },
+      postulacion: {
+        id: postulacion.id,
+        estado: postulacion.estado,
+        documentosAdjuntos: postulacion.documentosAdjuntos,
+        motivoRechazo: postulacion.motivoRechazo ?? null,
+        creadaEn: postulacion.creadaEn,
+        actualizadaEn: postulacion.actualizadaEn,
+      },
+      trazabilidad,
+    };
   }
 }

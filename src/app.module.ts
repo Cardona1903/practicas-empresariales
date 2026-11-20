@@ -7,7 +7,9 @@ import { AuthModule } from './compartido/auth/auth.module';
 import { PostulacionModule } from './postulacion/postulacion.module';
 import { AsignacionTutorModule } from './asignacion-tutor/asignacion-tutor.module';
 import { HorasModule } from './horas/horas.module';
+import { ActasModule } from './actas/actas.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
+import { AdministracionModule } from './administracion/administracion.module';
 import { RegistroAuditoria } from './compartido/auditoria/entities/registro-auditoria.entity';
 import { RequisitoPrograma } from './compartido/configuracion/entities/requisito-programa.entity';
 import { EnlaceAcceso } from './compartido/auth/entities/enlace-acceso.entity';
@@ -16,6 +18,7 @@ import { Estudiante } from './postulacion/entities/estudiante.entity';
 import { Supervisor } from './asignacion-tutor/entities/supervisor.entity';
 import { AsignacionTutor } from './asignacion-tutor/entities/asignacion-tutor.entity';
 import { RegistroHoras } from './horas/entities/registro-horas.entity';
+import { Acta } from './actas/entities/acta.entity';
 import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
 
 /**
@@ -47,6 +50,8 @@ import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
           Supervisor,
           AsignacionTutor,
           RegistroHoras,
+          Acta,
+
           Evaluacion,
         ],
         synchronize: false,
@@ -59,7 +64,9 @@ import { Evaluacion } from './evaluacion/entities/evaluacion.entity';
     PostulacionModule,
     AsignacionTutorModule,
     HorasModule,
+    ActasModule,
     EvaluacionModule,
+    AdministracionModule,
   ],
 })
 export class AppModule {}
