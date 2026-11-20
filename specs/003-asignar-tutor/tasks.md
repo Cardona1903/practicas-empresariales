@@ -13,7 +13,7 @@
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno)
       Depende de: T-01, T-02
 
-- [ ] T-04 Controlador AsignacionTutorController con endpoint POST /asignaciones-tutor y RBAC administrativo (ADR-004, EAC-03)
+- [x] T-04 Controlador AsignacionTutorController con endpoint POST /asignaciones-tutor y RBAC administrativo (ADR-004, EAC-03)
       Archivos: src/asignacion-tutor/asignacion-tutor.controller.ts
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno), Rechazo por datos inválidos como correo con formato incorrecto o estudiante vacío (excepción), Bloqueo de asignación de tutor sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-03
