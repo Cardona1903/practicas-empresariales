@@ -1,4 +1,4 @@
-- [ ] T-01 Extender enum EstadoActa con el estado SOLICITADA (ADR-002, ADR-005, RN-01)
+- [x] T-01 Extender enum EstadoActa con el estado SOLICITADA (ADR-002, ADR-005, RN-01)
       Archivos: src/actas/enums/estado-acta.enum.ts
       Escenarios: Radicación exitosa de la petición del acta final con requisitos cumplidos (flujo básico), Rechazo de petición duplicada cuando ya existe una petición en curso o un acta generada (flujo alterno - excepción)
       Depende de: ninguna
