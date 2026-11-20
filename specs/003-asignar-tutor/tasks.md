@@ -23,7 +23,7 @@
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno)
       Depende de: T-04
 
-- [ ] T-06 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-06 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/003-asignar-tutor/validacion.md, test/probar-asignar-tutor.ts
       Escenarios: Asignación inicial exitosa de tutor con nombre opcional (flujo básico), Actualización del tutor asignado a un estudiante que ya tenía asignación previa (flujo alterno), Rechazo por datos inválidos como correo con formato incorrecto o estudiante vacío (excepción), Bloqueo de asignación de tutor sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-05
