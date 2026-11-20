@@ -68,3 +68,9 @@ export class RegistroHorasYaVerificadoError extends DominioError {
     super(mensaje, HttpStatus.CONFLICT);
   }
 }
+
+export class EvaluacionYaRegistradaError extends DominioError {
+  constructor(mensaje = 'El estudiante ya tiene una evaluación de desempeño registrada') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
