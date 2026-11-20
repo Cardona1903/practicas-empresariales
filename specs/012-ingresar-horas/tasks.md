@@ -8,7 +8,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de ingreso de horas sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-01
 
-- [ ] T-03 Enum EstadoHoras y entidad RegistroHoras (ADR-002, RN-01)
+- [x] T-03 Enum EstadoHoras y entidad RegistroHoras (ADR-002, RN-01)
       Archivos: src/horas/enums/estado-horas.enum.ts, src/horas/entities/registro-horas.entity.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno)
       Depende de: ninguna
