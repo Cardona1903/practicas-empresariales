@@ -28,7 +28,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de ingreso de horas sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-02, T-05
 
-- [ ] T-07 Integración modular en HorasModule y AppModule (ADR-001, ADR-002)
+- [x] T-07 Integración modular en HorasModule y AppModule (ADR-001, ADR-002)
       Archivos: src/horas/horas.module.ts, src/app.module.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno)
       Depende de: T-06
