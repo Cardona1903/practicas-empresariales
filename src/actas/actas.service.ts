@@ -1,0 +1,237 @@
+import { Injectable, Optional } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import * as fs from 'fs';
+import * as path from 'path';
+import PDFDocument from 'pdfkit';
+import { Acta } from './entities/acta.entity';
+import { EstadoActa } from './enums/estado-acta.enum';
+import { PostulacionService } from '../postulacion/postulacion.service';
+import { HorasService } from '../horas/horas.service';
+import { ConfiguracionService } from '../compartido/configuracion/configuracion.service';
+import { AuditoriaService } from '../compartido/auditoria/auditoria.service';
+import {
+  ActaYaExisteError,
+  FalloGeneracionActaError,
+  HorasInsuficientesError,
+  PostulacionNoValidadaError,
+} from '../compartido/errores/dominio.error';
+
+/**
+ * Servicio del Módulo Actas (CU-07, ADR-001, ADR-003, ADR-005, ADR-006, ADR-007, PA-04, EAC-01).
+ * - Orquesta la expedición síncrona del acta final de práctica en PDF.
+ * - Respeta la regla estricta de modularidad (ADR-001): interactúa exclusivamente con
+ *   PostulacionService, HorasService, ConfiguracionService y AuditoriaService exportados,
+ *   sin inyectar ni importar repositorios de otros módulos.
+ * - Si ocurre un fallo técnico al generar o almacenar el PDF, registra el acta en estado
+ *   FALLIDA con detalleError y lanza FalloGeneracionActaError (HTTP 500) sin reintentos automáticos (RN-01, ADR-006).
+ */
+@Injectable()
+export class ActasService {
+  private directorioAlmacenamiento = path.resolve(process.cwd(), 'uploads', 'actas');
+
+  constructor(
+    @InjectRepository(Acta)
+    private readonly actaRepo: Repository<Acta>,
+    private readonly postulacionService: PostulacionService,
+    private readonly horasService: HorasService,
+    private readonly configuracionService: ConfiguracionService,
+    private readonly auditoriaService: AuditoriaService,
+    @Optional()
+    private readonly dataSource?: DataSource,
+  ) {}
+
+  /**
+   * Permite configurar el directorio local on-premise donde se almacenan los PDFs de las actas (RT-01).
+   */
+  configurarDirectorioAlmacenamiento(directorio: string): void {
+    this.directorioAlmacenamiento = directorio;
+  }
+
+  /**
+   * Genera de forma síncrona y transaccional el acta final de práctica en PDF para un estudiante (CU-07).
+   */
+  async generarActa(estudianteId: string, actorId: string): Promise<Acta> {
+    // 1. Verificar si ya existe un acta previa en estado GENERADA para evitar duplicados
+    const actaExistente = await this.actaRepo.findOne({
+      where: {
+        estudianteId,
+        estado: EstadoActa.GENERADA,
+      },
+    });
+
+    if (actaExistente) {
+      throw new ActaYaExisteError('Ya existe un acta oficial generada para este estudiante');
+    }
+
+    // 2. Verificar que la postulación del estudiante esté en estado VALIDADA (ADR-001, ADR-003)
+    const estaValidada = await this.postulacionService.estaValidada(estudianteId);
+    if (!estaValidada) {
+      throw new PostulacionNoValidadaError('la postulación aún no está validada');
+    }
+
+    const postulacion = await this.postulacionService.obtenerPorEstudiante(estudianteId);
+    if (!postulacion || postulacion.estado !== 'VALIDADA') {
+      throw new PostulacionNoValidadaError('la postulación aún no está validada');
+    }
+
+    // 3. Consultar requisitos vigentes del programa académico (ADR-007) y total de horas verificadas (CU-05)
+    const programaAcademico = postulacion.estudiante.programaAcademico;
+    const requisito = await this.configuracionService.obtenerRequisitosVigentes(programaAcademico);
+    const totalHoras = await this.horasService.totalHorasValidadas(estudianteId);
+
+    if (totalHoras < requisito.horasMinimas) {
+      throw new HorasInsuficientesError(
+        'El estudiante no cumple con las horas mínimas requeridas por su programa académico',
+      );
+    }
+
+    // 4. Renderizar el PDF en memoria con PDFKit, guardarlo en almacenamiento local on-premise
+    //    y persistir la entidad Acta transaccionalmente en estado GENERADA (ADR-005).
+    try {
+      const rutaPdf = await this.renderizarYGuardarPdf(
+        estudianteId,
+        programaAcademico,
+        totalHoras,
+        actorId,
+      );
+
+      const guardarEnTransaccion = async (repo: Repository<Acta>): Promise<Acta> => {
+        const nuevaActa = repo.create({
+          estudianteId,
+          totalHoras,
+          rutaPdf,
+          estado: EstadoActa.GENERADA,
+          detalleError: null,
+        });
+        return repo.save(nuevaActa);
+      };
+
+      const actaGuardada =
+        this.dataSource && this.dataSource.isInitialized
+          ? await this.dataSource.transaction(async (manager) =>
+              guardarEnTransaccion(manager.getRepository(Acta)),
+            )
+          : await guardarEnTransaccion(this.actaRepo);
+
+      await this.auditoriaService.registrarEvento(
+        'GENERACION_ACTA',
+        'EXITOSO',
+        actorId,
+        JSON.stringify({
+          actaId: actaGuardada.id,
+          estudianteId,
+          programaAcademico,
+          totalHoras,
+          rutaPdf,
+          estado: EstadoActa.GENERADA,
+        }),
+      );
+
+      return actaGuardada;
+    } catch (error) {
+      const detalleError = error instanceof Error ? error.message : String(error);
+
+      const actaFallida = this.actaRepo.create({
+        estudianteId,
+        totalHoras,
+        rutaPdf: null,
+        estado: EstadoActa.FALLIDA,
+        detalleError,
+      });
+
+      const guardadaFallida = await this.actaRepo.save(actaFallida);
+
+      await this.auditoriaService.registrarEvento(
+        'GENERACION_ACTA',
+        'FALLIDO',
+        actorId,
+        JSON.stringify({
+          actaId: guardadaFallida.id,
+          estudianteId,
+          programaAcademico,
+          totalHoras,
+          estado: EstadoActa.FALLIDA,
+          detalleError,
+        }),
+      );
+
+      throw new FalloGeneracionActaError('no se pudo generar el acta, reintentar manualmente');
+    }
+  }
+
+  /**
+   * Renderiza el PDF oficial del acta de finalización en memoria usando PDFKit
+   * y lo guarda en el almacenamiento local on-premise institucional (ADR-005, RT-01).
+   */
+  protected async renderizarYGuardarPdf(
+    estudianteId: string,
+    programaAcademico: string,
+    totalHoras: number,
+    actorId: string,
+  ): Promise<string> {
+    const bufferPdf = await this.generarBufferPdf(
+      estudianteId,
+      programaAcademico,
+      totalHoras,
+      actorId,
+    );
+
+    await fs.promises.mkdir(this.directorioAlmacenamiento, { recursive: true });
+    const nombreArchivo = `acta_${estudianteId}_${Date.now()}.pdf`;
+    const rutaCompleta = path.join(this.directorioAlmacenamiento, nombreArchivo);
+
+    await fs.promises.writeFile(rutaCompleta, bufferPdf);
+    return rutaCompleta;
+  }
+
+  /**
+   * Construye el documento PDF en memoria mediante PDFKit sin servicios externos (ADR-005, RT-01).
+   */
+  protected generarBufferPdf(
+    estudianteId: string,
+    programaAcademico: string,
+    totalHoras: number,
+    actorId: string,
+  ): Promise<Buffer> {
+    return new Promise<Buffer>((resolve, reject) => {
+      try {
+        const doc = new PDFDocument({ size: 'LETTER', margin: 50 });
+        const fragmentos: Buffer[] = [];
+
+        doc.on('data', (chunk: Buffer) => fragmentos.push(chunk));
+        doc.on('end', () => resolve(Buffer.concat(fragmentos)));
+        doc.on('error', (err: Error) => reject(err));
+
+        doc
+          .fontSize(16)
+          .text('UNIVERSIDAD DE CALDAS', { align: 'center' })
+          .fontSize(13)
+          .text('Facultad de Inteligencia Artificial e Ingenierías', { align: 'center' })
+          .moveDown()
+          .fontSize(14)
+          .text('ACTA OFICIAL DE FINALIZACIÓN DE PRÁCTICA EMPRESARIAL', { align: 'center' })
+          .moveDown(2)
+          .fontSize(11)
+          .text(`Documento del estudiante: ${estudianteId}`)
+          .moveDown(0.5)
+          .text(`Programa académico: ${programaAcademico}`)
+          .moveDown(0.5)
+          .text(`Total de horas verificadas y consolidadas: ${totalHoras} horas`)
+          .moveDown(0.5)
+          .text(`Expedida por funcionario administrativo (documento): ${actorId}`)
+          .moveDown(0.5)
+          .text(`Fecha de expedición: ${new Date().toISOString()}`)
+          .moveDown(2)
+          .text(
+            'La Coordinación de Prácticas Empresariales certifica que el estudiante cumplió con la totalidad de los requisitos y horas mínimas exigidas por su programa académico.',
+            { align: 'justify' },
+          );
+
+        doc.end();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+}

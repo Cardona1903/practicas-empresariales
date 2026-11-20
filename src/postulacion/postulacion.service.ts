@@ -157,10 +157,15 @@ export class PostulacionService {
 
   /**
    * Servicio exportado: consulta si una postulación ya fue validada (usado por Actas/CU-07).
+   * Admite tanto el documento del estudiante (estudianteId) como el UUID de la postulación.
    */
-  async estaValidada(postulacionId: string): Promise<boolean> {
+  async estaValidada(identificador: string): Promise<boolean> {
+    const porEstudiante = await this.obtenerPorEstudiante(identificador);
+    if (porEstudiante) {
+      return porEstudiante.estado === EstadoPostulacion.VALIDADA;
+    }
     const postulacion = await this.postulacionRepo.findOne({
-      where: { id: postulacionId },
+      where: { id: identificador },
     });
     return postulacion?.estado === EstadoPostulacion.VALIDADA;
   }
