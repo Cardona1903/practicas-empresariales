@@ -13,7 +13,7 @@
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico), Verificar manualmente un registro de horas pendiente y consolidar total verificado (flujo básico), Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción)
       Depende de: T-01, T-02
 
-- [ ] T-04 Endpoints administrativos GET /horas y PATCH /horas/:id con RBAC en HorasController (ADR-004, EAC-03)
+- [x] T-04 Endpoints administrativos GET /horas y PATCH /horas/:id con RBAC en HorasController (ADR-004, EAC-03)
       Archivos: src/horas/horas.controller.ts
       Escenarios: Consultar listado de registros de horas con filtros opcionales de estado y estudiante (flujo básico), Verificar manualmente un registro de horas pendiente y consolidar total verificado (flujo básico), Intento de verificar un registro de horas que ya estaba verificado (excepción), Verificación de un registro de horas inexistente (excepción), Bloqueo de consulta o verificación de horas sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-03
