@@ -56,3 +56,15 @@ export class MotivoRechazoObligatorioError extends DominioError {
     super(mensaje, HttpStatus.BAD_REQUEST);
   }
 }
+
+export class RegistroHorasNoEncontradoError extends DominioError {
+  constructor(mensaje = 'El registro de horas solicitado no existe') {
+    super(mensaje, HttpStatus.NOT_FOUND);
+  }
+}
+
+export class RegistroHorasYaVerificadoError extends DominioError {
+  constructor(mensaje = 'El registro de horas ya fue verificado previamente') {
+    super(mensaje, HttpStatus.CONFLICT);
+  }
+}
