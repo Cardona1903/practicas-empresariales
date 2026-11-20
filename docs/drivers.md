@@ -10,7 +10,7 @@ Se listan 13 casos de uso agrupados por actor. Se marcan como primarios (máximo
 |---|---|---|---|---|---|
 | CU-01 | Personal Administrativo | Visualizar peticiones de postulación | No | Consulta estándar sobre datos ya existentes en el sistema; no estructura la arquitectura. | [specs/001-visualizar-peticiones](../specs/001-visualizar-peticiones/) |
 | **CU-02** | Personal Administrativo | Revisar y validar la postulación del estudiante | **Sí** | Riesgo: los requisitos de validación varían por programa académico y aún no están estandarizados; es el filtro de entrada a todo el proceso. | [specs/002-revisar-postulacion](../specs/002-revisar-postulacion/) |
-| CU-03 | Personal Administrativo | Asignar tutor al estudiante | No | Actualización simple de una relación estudiante-tutor; sin complejidad ni riesgo relevante. | (sin especificar) |
+| CU-03 | Personal Administrativo | Asignar tutor al estudiante | No | Actualización simple de una relación estudiante-tutor; sin complejidad ni riesgo relevante. | [specs/003-asignar-tutor](../specs/003-asignar-tutor/) |
 | CU-04 | Personal Administrativo | Visualización de datos de postulantes | No | Consulta estándar, similar a CU-01. | (sin especificar) |
 | **CU-05** | Personal Administrativo | Verificar horas de estudiantes | **Sí** | Complejidad técnica: consolida y cruza datos provenientes de múltiples fuentes (registro del supervisor y revisión manual) antes de habilitar el acta. | [specs/005-verificar-horas](../specs/005-verificar-horas/) |
 | CU-06 | Personal Administrativo | Dar confirmación para la generación del acta final | No | Es un cambio de estado (aprobación); la complejidad real está en CU-07, que genera el documento. | (sin especificar) |
