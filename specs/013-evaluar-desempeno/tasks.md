@@ -13,7 +13,7 @@
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción)
       Depende de: ninguna
 
-- [ ] T-04 Servicio EvaluacionService con verificación de evaluación única y consumo del enlace vía EnlaceAccesoService (ADR-001, ADR-004)
+- [x] T-04 Servicio EvaluacionService con verificación de evaluación única y consumo del enlace vía EnlaceAccesoService (ADR-001, ADR-004)
       Archivos: src/evaluacion/evaluacion.service.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción)
       Depende de: T-01, T-02, T-03
