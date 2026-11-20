@@ -8,7 +8,7 @@
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico), Consulta de un postulante inexistente por documento (flujo alterno)
       Depende de: T-01
 
-- [ ] T-03 Endpoint administrativo GET /postulaciones/estudiante/:documento con RBAC en PostulacionController (ADR-004, EAC-03)
+- [x] T-03 Endpoint administrativo GET /postulaciones/estudiante/:documento con RBAC en PostulacionController (ADR-004, EAC-03)
       Archivos: src/postulacion/postulacion.controller.ts
       Escenarios: Consulta exitosa de los datos y trazabilidad de un postulante existente (flujo básico), Consulta de un postulante inexistente por documento (flujo alterno), Bloqueo de consulta de datos y trazabilidad sin rol administrativo (EAC-03 - Seguridad)
       Depende de: T-02

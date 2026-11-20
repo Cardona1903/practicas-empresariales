@@ -98,4 +98,19 @@ export class PostulacionController {
       usuario.documento,
     );
   }
+
+  /**
+   * GET /postulaciones/estudiante/:documento
+   * Consulta los datos detallados de un estudiante postulante y la trazabilidad de su postulación (CU-04).
+   * Requiere rol 'ADMINISTRATIVO' (ADR-004, EAC-03, PA-04).
+   * Responde HTTP 200 con datos del estudiante, postulación y eventos de auditoría asociados.
+   */
+  @Get('estudiante/:documento')
+  @Roles('ADMINISTRATIVO')
+  @HttpCode(HttpStatus.OK)
+  async obtenerTrazabilidadEstudiante(
+    @Param('documento') documento: string,
+  ) {
+    return this.postulacionService.obtenerTrazabilidadPorEstudiante(documento);
+  }
 }
