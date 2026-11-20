@@ -3,7 +3,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad)
       Depende de: ninguna
 
-- [ ] T-02 Servicio EnlaceAccesoService, SupervisorTokenGuard, decorador EnlaceActual y exportación en AuthModule (ADR-001, ADR-004, EAC-03, PA-04)
+- [x] T-02 Servicio EnlaceAccesoService, SupervisorTokenGuard, decorador EnlaceActual y exportación en AuthModule (ADR-001, ADR-004, EAC-03, PA-04)
       Archivos: src/compartido/auth/enlace-acceso.service.ts, src/compartido/auth/guards/supervisor-token.guard.ts, src/compartido/auth/decorators/enlace-actual.decorator.ts, src/compartido/auth/auth.module.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Bloqueo de ingreso de horas con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de ingreso de horas sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-01
