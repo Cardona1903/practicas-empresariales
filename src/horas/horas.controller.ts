@@ -15,6 +15,7 @@ import {
 import { HorasService } from './horas.service';
 import { RegistrarHorasDto } from './dto/registrar-horas.dto';
 import { ConsultarHorasFiltroDto } from './dto/consultar-horas-filtro.dto';
+import { AvanceHorasEstudianteDto } from './dto/avance-horas-estudiante.dto';
 import { SupervisorTokenGuard } from '../compartido/auth/guards/supervisor-token.guard';
 import { SsoAuthGuard } from '../compartido/auth/guards/sso-auth.guard';
 import { RolesGuard } from '../compartido/auth/guards/roles.guard';
@@ -73,6 +74,21 @@ export class HorasController {
     @Query() filtro: ConsultarHorasFiltroDto,
   ): Promise<RegistroHoras[]> {
     return this.horasService.listarRegistrosHoras(filtro);
+  }
+
+  /**
+   * GET /horas/mi-avance
+   * Permite al estudiante autenticado consultar el avance de sus propias horas de práctica (CU-10).
+   * Requiere rol 'ESTUDIANTE' (ADR-004, EAC-03, Vista Lógica).
+   */
+  @Get('mi-avance')
+  @UseGuards(SsoAuthGuard, RolesGuard)
+  @Roles('ESTUDIANTE')
+  @HttpCode(HttpStatus.OK)
+  async obtenerMiAvance(
+    @UsuarioActual() usuario: UsuarioAutenticado,
+  ): Promise<AvanceHorasEstudianteDto> {
+    return this.horasService.consultarAvanceEstudiante(usuario.documento);
   }
 
   /**
