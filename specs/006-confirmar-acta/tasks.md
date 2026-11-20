@@ -13,7 +13,7 @@
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción), Bloqueo de confirmación de acta sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-02
 
-- [ ] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
+- [x] T-04 Validación de escenarios en validacion.md y script ejecutable de prueba
       Archivos: specs/006-confirmar-acta/validacion.md, test/probar-confirmar-acta.ts
       Escenarios: Confirmación exitosa de una petición de acta en estado solicitada (flujo básico), Intento de confirmar un acta que no se encuentra en estado solicitada (excepción), Confirmación de un registro de acta inexistente (excepción), Bloqueo de confirmación de acta sin autenticación o con rol no administrativo (EAC-03 - Seguridad)
       Depende de: T-03
