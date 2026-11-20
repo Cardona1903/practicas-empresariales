@@ -23,7 +23,7 @@
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno), Intento de evaluar a un estudiante que ya cuenta con evaluación registrada (excepción), Rechazo por calificación fuera del rango permitido de 0.0 a 5.0 (excepción), Bloqueo de evaluación con enlace inexistente, ya utilizado o vencido (EAC-03 - Seguridad), Bloqueo de evaluación sin token de enlace o por un actor no autorizado (EAC-03 - Seguridad)
       Depende de: T-04
 
-- [ ] T-06 Integración modular en EvaluacionModule y AppModule (ADR-001, ADR-002)
+- [x] T-06 Integración modular en EvaluacionModule y AppModule (ADR-001, ADR-002)
       Archivos: src/evaluacion/evaluacion.module.ts, src/app.module.ts
       Escenarios: Registro exitoso de evaluación de desempeño con comentarios usando un enlace de acceso válido (flujo básico), Registro exitoso de evaluación de desempeño sin comentarios (flujo alterno)
       Depende de: T-05
