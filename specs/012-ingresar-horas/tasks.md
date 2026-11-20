@@ -13,7 +13,7 @@
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-04 DTO RegistrarHorasDto con validaciones de fecha, horas positivas y descripción opcional
+- [x] T-04 DTO RegistrarHorasDto con validaciones de fecha, horas positivas y descripción opcional
       Archivos: src/horas/dto/registrar-horas.dto.ts
       Escenarios: Registro exitoso de horas con descripción opcional usando un enlace de acceso válido (flujo básico), Registro exitoso de horas sin descripción (flujo alterno), Rechazo por cantidad de horas o fecha inválida (flujo alterno - excepción)
       Depende de: ninguna
