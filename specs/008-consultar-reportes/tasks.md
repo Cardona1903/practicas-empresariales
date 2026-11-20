@@ -3,7 +3,7 @@
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno)
       Depende de: ninguna
 
-- [ ] T-02 Servicio ReportesService que consolida indicadores exclusivamente mediante PostulacionService y HorasService (ADR-001)
+- [x] T-02 Servicio ReportesService que consolida indicadores exclusivamente mediante PostulacionService y HorasService (ADR-001)
       Archivos: src/administracion/reportes.service.ts
       Escenarios: Consulta exitosa de indicadores globales y avance de prácticas en curso (flujo básico), Consulta de reportes cuando aún no hay postulaciones registradas (flujo alterno)
       Depende de: T-01
